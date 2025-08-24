@@ -1,4 +1,3 @@
-// login.js
 
 $(document).ready(function () {
     $("#ingresarBtn").click(async function () {
@@ -11,7 +10,7 @@ $(document).ready(function () {
         }
 
         try {
-            // CORRECCIÓN DE RUTA: Subimos 3 niveles (desde modulos, vistas, adm-ofertapp) para llegar a la raíz.
+            
             const url = '../api-ofertapp/sesiones/funLogin.php';
 
             const response = await fetch(url, {
@@ -20,7 +19,6 @@ $(document).ready(function () {
                 body: JSON.stringify({ usuario: usuario, pass: pass })
             });
 
-            // Esto es importante para manejar el error de la respuesta "sucia"
             const textResponse = await response.text();
             const jsonResponse = JSON.parse(textResponse);
 
@@ -32,7 +30,6 @@ $(document).ready(function () {
                     showConfirmButton: false
                 });
 
-                // CORRECCIÓN DE RUTA: Subimos un nivel (desde modulos) para llegar a vistas, donde está el dashboard.
                 window.location.href = "/ofertapp-app/adm-ofertapp/vistas/dashboard.php";
 
             } else {
