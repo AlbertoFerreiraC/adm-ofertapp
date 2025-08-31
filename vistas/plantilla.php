@@ -18,23 +18,12 @@ session_start();
 </head>
 
 <?php
-// Verificamos si el usuario está logueado
-$usuarioLogueado = (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok");
-
 // Determinamos la ruta. Por defecto, siempre será 'dashboard'.
 $ruta = isset($_GET["ruta"]) ? $_GET["ruta"] : 'dashboard';
 
-// Lista de rutas que requieren OBLIGATORIAMENTE iniciar sesión
-$rutasProtegidas = ["perfil", "productos", "usuarios", "salir", "categorias", "ofertas", "compras", "clientes", "roles", "promociones", "ofertas"];
+// <-- CAMBIO CLAVE: Se elimina toda la lógica de rutas protegidas. Ya no es necesaria.
 
-// LÓGICA DE SEGURIDAD:
-// Si el usuario NO está logueado Y está intentando acceder a una ruta protegida...
-if (!$usuarioLogueado && in_array($ruta, $rutasProtegidas)) {
-    // ...lo forzamos a ir a la ruta 'login' para que inicie sesión.
-    $ruta = 'login';
-}
-
-// Determinamos la clase del body según la ruta final
+// Determinamos la clase del body según la ruta actual
 $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-password')
     ? 'login-page'
     : 'hold-transition skin-blue sidebar-mini';
@@ -46,13 +35,14 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
     // Si la página a mostrar NO es una de las de login, muestra la estructura principal del panel
     if ($bodyClass != 'login-page') {
         echo '<div class="wrapper">';
-        // Incluimos un cabezote y menú "inteligentes" que se adaptan al visitante
+        // Incluimos cabezote y menú
         include __DIR__ . "/modulos/cabezote.php";
         include __DIR__ . "/modulos/menu.php";
     }
 
     // --- ROUTER FINAL ---
-    // Carga el módulo correspondiente a la ruta final
+    // Carga el módulo correspondiente a la ruta
+    // Añadí las rutas que faltaban de tu menú para evitar errores 404
     $rutasExistentes = [
         "dashboard",
         "login",
@@ -70,8 +60,24 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "clientes",
         "roles",
         "promociones",
-        "ofertas"
+        "empresa",
+        "membresias_planes",
+        "membresias_asignar",
+        "membresias_historial",
+        "consultas",
+        "consultas_avanzadas",
+        "pedidos",
+        "gestionar_pedidos",
+        "envios_pendientes",
+        "envios_realizados",
+        "informes_ventas_dia",
+        "informes_ventas_mes",
+        "informes_ventas_cliente",
+        "informes_clientes_activos",
+        "informes_clientes_inactivos",
+        "informes_empresas"
     ];
+
 
     if (in_array($ruta, $rutasExistentes)) {
         include __DIR__ . "/modulos/" . $ruta . ".php";
