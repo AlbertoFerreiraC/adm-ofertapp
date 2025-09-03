@@ -15,6 +15,8 @@ session_start();
     <link rel="stylesheet" href="vistas/dist/css/skins/skin-blue.min.css">
     <script src="vistas/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <?php
@@ -24,7 +26,7 @@ $ruta = isset($_GET["ruta"]) ? $_GET["ruta"] : 'dashboard';
 // <-- CAMBIO CLAVE: Se elimina toda la lógica de rutas protegidas. Ya no es necesaria.
 
 // Determinamos la clase del body según la ruta actual
-$bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-password')
+$bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-password' || $ruta == 'register')
     ? 'login-page'
     : 'hold-transition skin-blue sidebar-mini';
 ?>
@@ -75,7 +77,8 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "informes_ventas_cliente",
         "informes_clientes_activos",
         "informes_clientes_inactivos",
-        "informes_empresas"
+        "informes_empresas",
+        "register"
     ];
 
 

@@ -2,17 +2,21 @@ $(document).ready(function () {
     $('#requestResetForm').on('submit', function (e) {
         e.preventDefault();
 
+        const email = $('#email').val().trim(); // Validación simple
+        if (!email) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atención',
+                text: 'Por favor, ingrese su correo electrónico.'
+            });
+            return;
+        }
+
         var formData = $(this).serialize();
         var submitButton = $(this).find('button');
         submitButton.prop('disabled', true).text('Enviando...');
 
         $.ajax({
-            /* ======================================================================
-            AQUÍ ESTÁ LA CORRECCIÓN MÁS IMPORTANTE:
-            Usamos "../" para subir un nivel desde "adm-ofertapp" hasta la raíz
-            del proyecto, y luego bajamos a "api-ofertapp".
-            ======================================================================
-            */
             url: '../api-ofertapp/sesiones/request_reset.php',
             type: 'POST',
             dataType: 'json',
@@ -21,23 +25,29 @@ $(document).ready(function () {
                 if (response.success) {
                     Swal.fire({
                         title: '¡Petición enviada!',
-                        text: response.message,
-                        icon: 'success'
+                        text: response.message || 'Revisa tu correo para continuar con la recuperación.',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        // Opcional: limpiar formulario
+                        $('#requestResetForm')[0].reset();
                     });
                 } else {
                     Swal.fire({
                         title: 'Error en el envío',
-                        text: response.message,
-                        icon: 'error'
+                        text: response.message || 'No se pudo procesar tu solicitud.',
+                        icon: 'error',
+                        confirmButtonText: 'Intentar de nuevo'
                     });
                 }
             },
-            error: function (jqXHR) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Respuesta del servidor:", jqXHR.responseText);
                 Swal.fire({
                     title: 'Error Crítico de Servidor',
                     text: 'No se pudo comunicar con la API. Revisa la consola del navegador.',
-                    icon: 'error'
+                    icon: 'error',
+                    confirmButtonText: 'Cerrar'
                 });
             },
             complete: function () {

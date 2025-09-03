@@ -1,75 +1,70 @@
 $(document).ready(function () {
 
+    // Cargar tabla al inicio
     cargarDatosTabla();
 
-    $('#btnGuardar').click(function () {
+    // Botones
+    $('#btnGuardarEmpresa').click(function () {
         agregarDatos();
     });
 
-    $('#btnModificar').click(function () {
+    $('#btnModificarEmpresa').click(function () {
         modificarDatos();
     });
 
-
-    $('#filtradoDinamico').keyup(function () {
-
-        var busqueda = document.getElementById('filtradoDinamico');
-        var table = document.getElementById("tabla").tBodies[0];
-        buscaTabla = function () {
-            texto = busqueda.value.toLowerCase();
-            var r = 0;
-            while (row = table.rows[r++]) {
-                if (row.innerText.toLowerCase().indexOf(texto) !== -1)
-                    row.style.display = null;
-                else
-                    row.style.display = 'none';
-            }
-        }
-        busqueda.addEventListener('keyup', buscaTabla);
-
+    // Filtrado dinámico
+    $('#filtradoEmpresa').on('keyup', function () {
+        var texto = $(this).val().toLowerCase();
+        $('#tablaEmpresas tbody tr').each(function () {
+            var filaTexto = $(this).text().toLowerCase();
+            $(this).toggle(filaTexto.indexOf(texto) !== -1);
+        });
     });
 
-
+    // Cargar categorías al abrir modal de agregar
+    categoriaAgregar();
 });
 
 
+// ================= FUNCIONES =================
+
+// -------- Listar --------
 function cargarDatosTabla() {
-    $("#tabla tbody").empty();
+    $("#tablaEmpresas tbody").empty();
 
     $.ajax({
         url: "../api-ofertapp/empresa/funListar.php",
         method: "GET",
         cache: false,
-        contentType: false,
-        processData: false,
         dataType: "json",
         success: function (response) {
             let filas = "";
 
             response.forEach((item, index) => {
+                let direccionCompleta = `${item.calle ?? ''} ${item.numero ?? ''}, ${item.barrio ?? ''}, ${item.ciudad ?? ''}`;
+
                 filas += `
-                    <tr>
+                    <tr id="fila_${item.idEmpresa}">
                         <td>${index + 1}</td>
                         <td>${item.nombre}</td>
-                        <td>${item.calle}</td>
-                        <td>${item.ciudad}</td>
-                        <td>${item.estado}</td>
+                        <td>${item.categoria}</td>
+                        <td>${direccionCompleta}</td>
+                        <td>
+                            <button class="btn btn-info" onclick="verMapa(${item.latitud}, ${item.longitud})">
+                                <i class="fa fa-map-marker"></i>
+                            </button>
+                        </td>
                         <td>
                             <center>
                                 <div class="btn-group">
-                                    <button 
-                                        title="Modificar" 
-                                        class="btn btn-warning btnModificar" 
-                                        id="${item.id}" 
+                                    <button title="Modificar" class="btn btn-warning btnModificar" 
+                                        id="${item.idEmpresa}" 
                                         data-toggle="modal" 
-                                        data-target="#modalModificar">
+                                        data-target="#modalModificarEmpresa">
                                         <i class="fa fa-pencil"></i>
                                     </button>
-
-                                    <button 
-                                        title="Eliminar" 
-                                        class="btn btn-danger btnEliminar" 
-                                        id="${item.id}">
+                                    <button title="Eliminar" class="btn btn-danger btnEliminar" 
+                                        id="${item.idEmpresa}">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -79,9 +74,9 @@ function cargarDatosTabla() {
                 `;
             });
 
-            $('#tabla tbody').append(filas);
+            $('#tablaEmpresas tbody').append(filas);
 
-            // Eventos de acción
+            // Eventos dinámicos
             $('.btnModificar').click(function () {
                 obtenerDatosParaModificar(this.id);
             });
@@ -89,211 +84,246 @@ function cargarDatosTabla() {
             $('.btnEliminar').click(function () {
                 const id_registro = this.id;
 
-                swal({
-                    title: '¿Está seguro de anular el registro?',
+                Swal.fire({
+                    icon: 'warning',
+                    title: '¿Está seguro de eliminar la empresa?',
                     text: "¡Si no lo está puede cancelar la acción!",
-                    type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Sí, anular registro'
-                }).then(function (result) {
-                    if (result.value) {
+                    confirmButtonText: 'Sí, eliminar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
                         eliminarDatos(id_registro);
                     }
                 });
             });
+        },
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Ha ocurrido un error al cargar la lista",
+                confirmButtonText: "Aceptar"
+            });
         }
-    }).fail(function () {
-        swal({
-            type: "error",
-            title: "Ha ocurrido un error al cargar la lista",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
     });
 }
 
 
+// -------- Agregar --------
 function agregarDatos() {
     var params = {
-        "descripcion": $("#descripcionAgregar").val()
+        "nombre": $("#nombreEmpresa").val(),
+        "categoria_id": $("#categoriaEmpresa").val(),
+        "calle": $("#calle").val(),
+        "numero": $("#numero").val(),
+        "barrio": $("#barrio").val(),
+        "ciudad": $("#ciudad").val(),
+        "departamento": $("#departamento").val(),
+        "pais": $("#pais").val(),
+        "latitud": $("#latitud").val(),
+        "longitud": $("#longitud").val(),
+        "estado": 'activo',
+        "usuario_id": 1 // 👈 ajustar según tu login
     };
+
     $.ajax({
         url: "../api-ofertapp/empresa/funAgregar.php",
         method: "POST",
-        cache: false,
         data: JSON.stringify(params),
-        contentType: false,
+        contentType: "application/json; charset=utf-8",
         processData: false,
         dataType: "json",
         success: function (response) {
             if (response['mensaje'] === "ok") {
-                swal({
-                    type: "success",
-                    title: "Registro cargado con exito",
-                    showConfirmButton: true,
+                Swal.fire({
+                    icon: "success",
+                    title: "Empresa registrada con éxito",
                     confirmButtonText: "Aceptar"
-                }).then((value) => {
-                    location.reload();
+                }).then(() => {
+                    cargarDatosTabla();
+                    $("#formEmpresaAgregar")[0].reset();
+                    $("#modalAgregarEmpresa").modal("hide");
+                });
+            } else if (response['mensaje'] === "registro_existente") {
+                Swal.fire({
+                    icon: "error",
+                    title: "La empresa ya existe en la base de datos"
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al procesar la carga"
                 });
             }
-
-            if (response['mensaje'] === "nok") {
-                swal({
-                    type: "error",
-                    title: "Ha ocurrido un error al procesar la carga",
-                    showConfirmButton: true,
-                    confirmButtonText: "Aceptar"
-                });
-            }
-
-            if (response['mensaje'] === "registro_existente") {
-                swal({
-                    type: "error",
-                    title: "El registro que quiere cargar ya existe en la base de datos",
-                    showConfirmButton: true,
-                    confirmButtonText: "Aceptar"
-                });
-            }
+        },
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Error al procesar la carga"
+            });
         }
-    }).fail(function () {
-        swal({
-            type: "error",
-            title: "Ha ocurrido un error al procesar la carga",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
     });
-
 }
 
-function obtenerDatosParaModificar(valor) {
-    var params = {
-        "id": valor
-    };
+
+// -------- Obtener datos para modificar --------
+function obtenerDatosParaModificar(idEmpresa) {
     $.ajax({
         url: "../api-ofertapp/empresa/funDatosParaModificar.php",
         method: "POST",
-        cache: false,
-        data: JSON.stringify(params),
-        contentType: false,
+        data: JSON.stringify({ idEmpresa: idEmpresa }),
+        contentType: "application/json; charset=utf-8",
         processData: false,
         dataType: "json",
         success: function (response) {
-            for (var i in response) {
-                $("#descripcionModificar").val(response[i].descripcion);
-                $("#idModificar").val(response[i].id);
+            if (response.length > 0) {
+                $("#idModificar").val(response[0].idEmpresa);
+                $("#nombreEmpresaModificar").val(response[0].nombre);
+                $("#calleModificar").val(response[0].calle);
+                $("#numeroModificar").val(response[0].numero);
+                $("#barrioModificar").val(response[0].barrio);
+                $("#ciudadModificar").val(response[0].ciudad);
+                $("#departamentoModificar").val(response[0].departamento);
+                $("#paisModificar").val(response[0].pais);
+                $("#latitudModificar").val(response[0].latitud);
+                $("#longitudModificar").val(response[0].longitud);
+
+                categoriaModificar(response[0].Categoria_idCategoria);
+
+                setTimeout(() => {
+                    initMapModificar(response[0].latitud, response[0].longitud);
+                }, 500);
             }
-
+        },
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Error al traer los datos solicitados"
+            });
         }
-    }).fail(function () {
-        swal({
-            type: "error",
-            title: "Ha ocurrido un error al traer los datos oslicitados",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
     });
-
 }
 
+
+// -------- Modificar --------
 function modificarDatos() {
     var params = {
-        "descripcion": $("#descripcionModificar").val(),
-        "id": $("#idModificar").val()
+        "idEmpresa": $("#idModificar").val(),
+        "nombre": $("#nombreEmpresaModificar").val(),
+        "categoria_id": $("#categoriaEmpresaModificar").val(),
+        "calle": $("#calleModificar").val(),
+        "numero": $("#numeroModificar").val(),
+        "barrio": $("#barrioModificar").val(),
+        "ciudad": $("#ciudadModificar").val(),
+        "departamento": $("#departamentoModificar").val(),
+        "pais": $("#paisModificar").val(),
+        "latitud": $("#latitudModificar").val(),
+        "longitud": $("#longitudModificar").val(),
+        "estado": 'activo'
     };
+
     $.ajax({
         url: "../api-ofertapp/empresa/funModificar.php",
         method: "POST",
-        cache: false,
         data: JSON.stringify(params),
-        contentType: false,
+        contentType: "application/json; charset=utf-8",
         processData: false,
         dataType: "json",
         success: function (response) {
             if (response['mensaje'] === "ok") {
-                swal({
-                    type: "success",
-                    title: "Registro modificado con exito",
-                    showConfirmButton: true,
-                    confirmButtonText: "Aceptar"
-                }).then((value) => {
-                    location.reload();
+                Swal.fire({
+                    icon: "success",
+                    title: "Empresa modificada con éxito"
+                }).then(() => {
+                    cargarDatosTabla();
+                    $("#modalModificarEmpresa").modal("hide");
+                });
+            } else if (response['mensaje'] === "repetido") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ya existe otra empresa con ese nombre/dirección"
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al procesar la modificación"
                 });
             }
-
-            if (response['mensaje'] === "nok") {
-                swal({
-                    type: "error",
-                    title: "Ha ocurrido un error al procesar la modificación",
-                    showConfirmButton: true,
-                    confirmButtonText: "Aceptar"
-                });
-            }
-
-            if (response['mensaje'] === "repetido") {
-                swal({
-                    type: "error",
-                    title: "El registro que quiere modificar ya existe en otro registro en la base de datos",
-                    showConfirmButton: true,
-                    confirmButtonText: "Aceptar"
-                });
-            }
+        },
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Error al procesar la modificación"
+            });
         }
-    }).fail(function () {
-        swal({
-            type: "error",
-            title: "Ha ocurrido un error al procesar la modificación",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
     });
-
 }
 
-function eliminarDatos(valor) {
-    var params = {
-        "id": valor
-    };
+
+// -------- Eliminar --------
+function eliminarDatos(idEmpresa) {
     $.ajax({
         url: "../api-ofertapp/empresa/funEliminar.php",
         method: "POST",
-        cache: false,
-        data: JSON.stringify(params),
-        contentType: false,
+        data: JSON.stringify({ idEmpresa: idEmpresa }),
+        contentType: "application/json; charset=utf-8",
         processData: false,
         dataType: "json",
         success: function (response) {
             if (response['mensaje'] === "ok") {
-                swal({
-                    type: "success",
-                    title: "Registro eliminado con exito",
-                    showConfirmButton: true,
-                    confirmButtonText: "Aceptar"
-                }).then((value) => {
-                    location.reload();
+                Swal.fire({
+                    icon: "success",
+                    title: "Empresa eliminada con éxito"
+                }).then(() => {
+                    $("#fila_" + idEmpresa).remove();
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al procesar la eliminación"
                 });
             }
-
-            if (response['mensaje'] === "nok") {
-                swal({
-                    type: "error",
-                    title: "Ha ocurrido un error al procesar la eliminación",
-                    showConfirmButton: true,
-                    confirmButtonText: "Aceptar"
-                });
-            }
-
+        },
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Error al procesar la eliminación"
+            });
         }
-    }).fail(function () {
-        swal({
-            type: "error",
-            title: "Ha ocurrido un error al procesar la eliminación",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
     });
+}
 
+
+// -------- Categorías --------
+function categoriaAgregar() {
+    $('#categoriaEmpresa').empty();
+    $('#categoriaEmpresa').append('<option value ="">Seleccionar...</option>');
+
+    $.ajax({
+        url: "../api-ofertapp/categoria/funListar.php",
+        method: "GET",
+        dataType: "json",
+        success: function (response) {
+            response.forEach(cat => {
+                $('#categoriaEmpresa').append('<option value="' + cat.id + '">' + cat.descripcion + '</option>');
+            });
+        }
+    });
+}
+
+function categoriaModificar(idCategoria) {
+    $('#categoriaEmpresaModificar').empty();
+    $.ajax({
+        url: "../api-ofertapp/categoria/funListar.php",
+        method: "GET",
+        dataType: "json",
+        success: function (response) {
+            response.forEach(cat => {
+                $('#categoriaEmpresaModificar').append('<option value="' + cat.id + '">' + cat.descripcion + '</option>');
+            });
+            $("#categoriaEmpresaModificar").val(idCategoria);
+        }
+    });
 }
