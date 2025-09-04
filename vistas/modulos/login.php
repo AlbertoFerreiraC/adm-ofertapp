@@ -7,10 +7,8 @@
     padding: 15px;
     padding-top: 15vh;
     height: 100vh;
-    /* Asegura que el body ocupe toda la altura */
   }
 
-  /* Estilos de tu contenedor personalizado */
   .login-container {
     background: #ffffff;
     padding: 40px;
@@ -20,7 +18,6 @@
     max-width: 380px;
     text-align: center;
     height: fit-content;
-    /* Ajusta la altura al contenido */
   }
 
   .login-container .logo {
@@ -73,15 +70,22 @@
     background-color: #113f5f;
   }
 
-  .login-container .forgot-password-link {
+  .login-container .extra-links {
     margin-top: 20px;
+    font-size: 14px;
   }
 
-  .login-container .forgot-password-link a {
+  .login-container .extra-links a {
+    display: block;
+    margin-top: 8px;
     color: #0C2A3E;
     text-decoration: none;
     font-weight: bold;
-    font-size: 14px;
+    transition: color 0.3s;
+  }
+
+  .login-container .extra-links a:hover {
+    color: #113f5f;
   }
 </style>
 
@@ -101,7 +105,8 @@
     <button type="button" id="ingresarBtn">INGRESAR</button>
   </form>
 
-  <div class="forgot-password-link">
+  <div class="extra-links">
     <a href="index.php?ruta=forgot-password">¿Olvidaste tu contraseña?</a>
+    <a href="index.php?ruta=register">¿No tienes cuenta? Regístrate aquí</a>
   </div>
 </div>

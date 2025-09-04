@@ -4,6 +4,7 @@ $(document).ready(function () {
         const usuario = $("#usuario").val();
         const pass = $("#contrasena").val();
 
+        // Validación campos vacíos
         if (!usuario || !pass) {
             Swal.fire({
                 icon: 'warning',
@@ -21,19 +22,18 @@ $(document).ready(function () {
                 body: JSON.stringify({ usuario: usuario, pass: pass })
             });
 
-            const jsonResponse = await response.json();
+            const jsonResponse = await response.json().catch(() => ({}));
 
-            if (response.ok) {
+            if (response.ok && jsonResponse.mensaje === "Login correcto") {
                 await Swal.fire({
                     icon: 'success',
-                    title: '¡Bienvenido, ' + jsonResponse.nombre + '!',
+                    title: '¡Bienvenido, ' + (jsonResponse.nombre || usuario) + '!',
                     timer: 1500,
                     showConfirmButton: false,
                     allowOutsideClick: false
                 });
 
                 window.location.href = "dashboard";
-
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -52,8 +52,19 @@ $(document).ready(function () {
     }
 
     $("#ingresarBtn").click(handleLogin);
+
     $('#loginForm').on('submit', function (e) {
         e.preventDefault();
         handleLogin();
     });
+
+    if ($("#logoutMessage").length) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Sesión Cerrada',
+            text: 'Has salido correctamente de la aplicación.',
+            timer: 1500,
+            showConfirmButton: false
+        });
+    }
 });
