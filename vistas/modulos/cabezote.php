@@ -1,33 +1,127 @@
 <header class="main-header">
-	<a href="dashboard.php" class="logo">
-		<span class="logo-mini"><b>J</b>A</span>
-		<span class="logo-lg"><b>Ofert</b>App</span>
-	</a>
-	<nav class="navbar navbar-static-top">
-		<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-			<span class="sr-only">Toggle navigation</span>
-		</a>
-		<div class="navbar-custom-menu">
-			<ul class="nav navbar-nav">
-				<?php if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"): ?>
-					<li class="dropdown user user-menu">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<img src="vistas/img/usuarios/default/anonymous.png" class="user-image">
-							<span class="hidden-xs"><?php echo $_SESSION["nombre"]; ?></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li class="user-footer">
-								<div class="pull-left">
-									<a href="perfil" class="btn btn-default btn-flat">Perfil</a>
-								</div>
-								<div class="pull-right">
-									<a href="salir" class="btn btn-danger btn-flat">Cerrar Sesión</a>
-								</div>
-							</li>
-						</ul>
-					</li>
-				<?php endif; ?>
-			</ul>
-		</div>
-	</nav>
+    <a href="dashboard.php" class="logo">
+        <span class="logo-lg"><b></b></span>
+        <span class="logo-mini"><b></b></span>
+    </a>
+
+    <nav class="navbar navbar-static-top">
+        <ul class="navbar-menu-links">
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#"><i class="fas fa-tags"></i> Ofertas y Promociones</a></li>
+            <li class="active"><a href="#"><i class="fas fa-bars"></i> Categorías</a></li>
+        </ul>
+
+        <div class="navbar-search-container">
+            <form action="#" method="get" class="search-form">
+                <input type="text" name="q" placeholder="Buscar Productos">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <?php if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"): ?>
+                    <li>
+                        <a href="#">
+                           <i class="fas fa-user" style="color:#f08438; margin-right: 8px;"></i> Mi Perfil
+                        </a>
+                    </li>
+                <?php else: ?>
+                    <li>
+                        <a href="#">
+                           <i class="fas fa-user" style="color:#c00; margin-right: 8px;"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </nav>
 </header>
+
+<style>
+    /* Reset y estilos base para la barra de navegación */
+    .main-header .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+        background-color: #f8f9fa; /* Color de fondo gris claro, similar a la imagen */
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    /* Ajuste del logo para que no tenga el fondo azul por defecto */
+    .main-header .logo {
+        background-color: #f8f9fa !important;
+        color: rgba(204, 139, 0, 1) !important; /* Color rojo para el logo */
+        font-weight: bold;
+        width: auto;
+    }
+    .main-header .logo:hover {
+        background-color: #f0f0f0 !important;
+    }
+
+    /* Contenedor para los enlaces de navegación del medio */
+    .navbar-menu-links {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        padding-left: 20px;
+        margin: 0;
+    }
+    .navbar-menu-links li a {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        color: #f0f0f0;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .navbar-menu-links li a:hover,
+    .navbar-menu-links li.active a {
+        color: #f0f0f0
+ /* Color rojo al pasar el mouse o en la página activa */
+    }
+    .navbar-menu-links li a .fas {
+        margin-right: 8px; /* Espacio entre el icono y el texto */
+        color: #f08438
+; /* Color rojo para los iconos */
+    }
+
+    /* Contenedor de la barra de búsqueda para que ocupe el espacio sobrante */
+    .navbar-search-container {
+        flex-grow: 1; /* Permite que este contenedor crezca y ocupe el espacio disponible */
+        display: flex;
+        justify-content: center;
+        padding: 0 40px;
+    }
+    .search-form {
+        position: relative;
+        width: 100%;
+        max-width: 450px; /* Ancho máximo para la barra de búsqueda */
+    }
+    .search-form input[type="text"] {
+        width: 100%;
+        padding: 8px 40px 8px 15px; /* Espacio para el icono */
+        border: 1px solid #ccc;
+        border-radius: 20px; /* Bordes redondeados */
+        font-size: 14px;
+    }
+    .search-form button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 40px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #f0f0f0;
+        font-size: 16px;
+    }
+    
+    .sidebar-toggle {
+      display: none !important;
+    }
+
+</style>
