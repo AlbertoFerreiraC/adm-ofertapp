@@ -81,15 +81,25 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "informes_clientes_activos",
         "informes_clientes_inactivos",
         "informes_empresas",
-        "register"
+        "register",
+        "dashboard_comerciante"
     ];
 
 
     if (in_array($ruta, $rutasExistentes)) {
-        include __DIR__ . "/modulos/" . $ruta . ".php";
+        if ($ruta === "dashboard") {
+            if (isset($_SESSION["tipo_usuario"]) && $_SESSION["tipo_usuario"] === "comercial") {
+                include __DIR__ . "/modulos/dashboard_comerciante.php";
+            } else {
+                include __DIR__ . "/modulos/dashboard.php";
+            }
+        } else {
+            include __DIR__ . "/modulos/" . $ruta . ".php";
+        }
     } else {
         include __DIR__ . "/modulos/404.php";
     }
+
 
     // Si abrimos la estructura principal, también la cerramos
     if ($bodyClass != 'login-page') {

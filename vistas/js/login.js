@@ -4,7 +4,6 @@ $(document).ready(function () {
         const usuario = $("#usuario").val();
         const pass = $("#contrasena").val();
 
-        // Validación campos vacíos
         if (!usuario || !pass) {
             Swal.fire({
                 icon: 'warning',
@@ -33,7 +32,12 @@ $(document).ready(function () {
                     allowOutsideClick: false
                 });
 
-                window.location.href = "dashboard";
+                if (jsonResponse.tipo_usuario === "comercial") {
+                    window.location.href = "dashboard";
+                } else {
+                    window.location.href = "dashboard";
+                }
+
             } else {
                 Swal.fire({
                     icon: 'error',
