@@ -39,14 +39,14 @@
 				<ul class="treeview-menu">
 
 					<li><a href="empresa"><i class="fa fa-industry"></i> Registro de Empresas</a></li>
+				</ul>
+			</li>
 
-					<li class="treeview">
-						<a href="#"><i class="fa fa-id-card"></i> Membresías<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-						<ul class="treeview-menu">
-							<li><a href="membresias_planes"><i class="fa fa-list"></i> Planes de Membresía</a></li>
-							<li><a href="membresias_historial"><i class="fa fa-history"></i> Historial</a></li>
-						</ul>
-					</li>
+			<li class="treeview">
+				<a href="#"><i class="fa fa-id-card"></i> Membresías<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+				<ul class="treeview-menu">
+					<li><a href="membresias_planes"><i class="fa fa-list"></i> Planes de Membresía</a></li>
+					<li><a href="membresias_historial"><i class="fa fa-history"></i> Historial</a></li>
 				</ul>
 			</li>
 
