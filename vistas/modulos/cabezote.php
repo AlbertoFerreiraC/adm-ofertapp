@@ -1,9 +1,4 @@
 <header class="main-header">
-    <a href="dashboard.php" class="logo">
-        <span class="logo-lg"><b></b></span>
-        <span class="logo-mini"><b></b></span>
-    </a>
-
     <nav class="navbar navbar-static-top">
         <ul class="navbar-menu-links">
             <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>

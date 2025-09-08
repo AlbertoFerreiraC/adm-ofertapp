@@ -13,12 +13,16 @@ session_start();
     <link rel="stylesheet" href="vistas/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="vistas/dist/css/AdminLTE.css">
     <link rel="stylesheet" href="vistas/dist/css/skins/skin-blue.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="vistas/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Font Awesome 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 </head>
 
@@ -82,7 +86,8 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "informes_clientes_inactivos",
         "informes_empresas",
         "register",
-        "dashboard_comerciante"
+        "dashboard_comerciante",
+        "nosotros"
     ];
 
 
