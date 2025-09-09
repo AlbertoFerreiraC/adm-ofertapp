@@ -87,7 +87,8 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "informes_empresas",
         "register",
         "dashboard_comerciante",
-        "nosotros"
+        "nosotros",
+        "descripcionProductos"
     ];
 
 

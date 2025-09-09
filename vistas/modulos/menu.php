@@ -28,7 +28,7 @@
 			</li>
 
 			<li>
-				<a href="membresias_planes">
+				<a href="descripcionProductos">
 					<i class="fa fa-id-card"></i> Membresías
 				</a>
 			</li>

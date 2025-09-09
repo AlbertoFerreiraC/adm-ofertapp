@@ -85,21 +85,31 @@
 
                 <!-- Producto 1 -->
                 <div class="swiper-slide">
-                    <div class="producto-card">
-                        <img src="vistas/img/plantilla/camaSomierKoala.png" alt="Sommier 180x200cm Koala" class="producto-imagen">
-                        <div class="producto-detalle">
-                            <h3 class="producto-nombre">Sommier 180x200cm Koala Premium juego completo</h3>
-                            <p class="producto-precio">Gs. 3.919.000 <span class="precio-anterior">4.700.000</span></p>
-                            <p class="producto-tienda">CaDo Hogar</p>
-                            <div class="producto-rating">⭐ ⭐ ⭐ ⭐ ⭐</div>
-                        </div>
-                    </div>
+                  <div class="producto-card">
+                 <div class="producto-img-wrapper">
+                 <img src="vistas/img/plantilla/camaSomierKoala.png" alt="Sommier 180x200cm Koala" class="producto-imagen">
+                  <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+                     <i class="fas fa-map-marker-alt"></i>
+                  </button>
+               </div>
+                <div class="producto-detalle">
+                  <h3 class="producto-nombre">Sommier 180x200cm Koala Premium juego completo</h3>
+                   <p class="producto-precio">Gs. 3.919.000 <span class="precio-anterior">4.700.000</span></p>
+                  <p class="producto-tienda">CaDo Hogar</p>
+                 <div class="producto-rating">⭐ ⭐ ⭐ ⭐ ⭐</div>
                 </div>
+                </div>
+             </div>
 
                 <!-- Producto 2 -->
                 <div class="swiper-slide">
                     <div class="producto-card">
+                        <div class="producto-img-wrapper">
                         <img src="vistas/img/plantilla/muebles.png" alt="Juego de muebles" class="producto-imagen">
+                        <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+                              <i class="fas fa-map-marker-alt"></i>
+                         </button>
+                       </div>
                         <div class="producto-detalle">
                             <h3 class="producto-nombre">Juego de muebles Premium</h3>
                             <p class="producto-precio">Gs. 2.500.000 <span class="precio-anterior">3.100.000</span></p>
@@ -112,7 +122,12 @@
                  <!-- Producto 3 -->
                 <div class="swiper-slide">
                     <div class="producto-card">
+                        <div class="producto-img-wrapper">
                         <img src="vistas/img/plantilla/zapatoVisano.png" alt="ZApato Vizzano" class="producto-imagen">
+                          <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+                              <i class="fas fa-map-marker-alt"></i>
+                         </button>
+                       </div>
                         <div class="producto-detalle">
                             <h3 class="producto-nombre">Zapato Vizzano</h3>
                             <p class="producto-precio">Gs. 200.000 <span class="precio-anterior">250.000</span></p>
@@ -125,7 +140,12 @@
                  <!-- Producto 4 -->
                 <div class="swiper-slide">
                     <div class="producto-card">
+                        <div class="producto-img-wrapper">
                         <img src="vistas/img/plantilla/camperaZara.png" alt="Campera Zara" class="producto-imagen">
+                           <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+                         <i class="fas fa-map-marker-alt"></i>
+                       </button>
+                       </div>
                         <div class="producto-detalle">
                             <h3 class="producto-nombre">Campera de Cuero Zara Talle M</h3>
                             <p class="producto-precio">Gs. 600.000 <span class="precio-anterior">950.000</span></p>
@@ -138,7 +158,12 @@
                  <!-- Producto 5 -->
                 <div class="swiper-slide">
                     <div class="producto-card">
+                        <div class="producto-img-wrapper">
                         <img src="vistas/img/plantilla/polleraZara.png" alt="Campera Zara" class="producto-imagen">
+                          <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+                              <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                        </div>
                         <div class="producto-detalle">
                             <h3 class="producto-nombre">Pollera de Cuero Zara Talle M</h3>
                             <p class="producto-precio">Gs. 400.000 <span class="precio-anterior">600.000</span></p>
@@ -149,18 +174,146 @@
                 </div>
 
 
-
-
-
             </div>
 
             <!-- Botones de navegación -->
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
         </div>
     </section>
+
+
+<!-- ==== SECCIÓN PRODUCTOS MÁS VENDIDOS ==== -->
+<section class="masvendidos-section">
+  <div class="titulo-contenedor">
+    <h2 class="titulo-resaltado">
+      Productos <span class="highlight">más vendidos 🏆</span>
+    </h2>
+  </div>
+
+  <div class="swiper masvendidos-slider">
+    <div class="swiper-wrapper">
+
+      <!-- Item 1 -->
+      <div class="swiper-slide">
+        <div class="producto-card">
+         <div class="producto-img-wrapper">
+         <img src="vistas/img/plantilla/arroz.png" alt="Arroz 1Kg" class="producto-imagen">
+         <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+          <i class="fas fa-map-marker-alt"></i>
+         </button>
+         </div>
+         <div class="producto-detalle">
+          <h3 class="producto-nombre">Arroz Premium 1Kg</h3>
+          <p class="producto-precio">Gs. 8.900 <span class="precio-anterior">10.500</span></p>
+          <p class="producto-tienda">Super Don Juan</p>
+         <div class="producto-rating">⭐ ⭐ ⭐ ⭐ ⭐</div>
+         </div>
+        </div>
+      </div>
+
+
+      <!-- Item 2 -->
+      <div class="swiper-slide">
+        <div class="producto-card">
+            <div class="producto-img-wrapper">
+          <img src="vistas/img/plantilla/aceite.png" alt="Aceite 900ml" class="producto-imagen">
+              <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+          <i class="fas fa-map-marker-alt"></i>
+         </button>
+         </div>
+          <div class="producto-detalle">
+            <h3 class="producto-nombre">Aceite Girasol 900ml</h3>
+            <p class="producto-precio">Gs. 14.500 <span class="precio-anterior">17.200</span></p>
+            <p class="producto-tienda">Mercado Central</p>
+            <div class="producto-rating">⭐ ⭐ ⭐ ⭐ ☆</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+        <div class="swiper-slide">
+        <div class="producto-card">
+        <div class="producto-img-wrapper">
+         <img src="vistas/img/plantilla/azucarPremiun.png" alt="Azúcar 1Kg" class="producto-imagen">
+         <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+           <i class="fas fa-map-marker-alt"></i>
+         </button>
+       </div>
+        <div class="producto-detalle">
+          <h3 class="producto-nombre">Azúcar 1Kg</h3>
+          <p class="producto-precio">Gs. 6.700 <span class="precio-anterior">8.000</span></p>
+          <p class="producto-tienda">Hiper Ahorro</p>
+         <div class="producto-rating">⭐ ⭐ ⭐ ⭐ ☆</div>
+       </div>
+       </div>
+     </div>
+
+
+       <!-- Item 4 -->
+    <div class="swiper-slide">
+      <div class="producto-card">
+        <div class="producto-img-wrapper">
+        <img src="vistas/img/plantilla/leche.png" alt="Leche entera" class="producto-imagen">
+        <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+            <i class="fas fa-map-marker-alt"></i>
+            </button>
+         </div>
+        <div class="producto-detalle">
+          <h3 class="producto-nombre">Leche Entera 1L</h3>
+          <p class="producto-precio">Gs. 5.200 <span class="precio-anterior">6.000</span></p>
+          <p class="producto-tienda">Lácteos Ñandutí</p>
+          <div class="producto-rating">⭐ ⭐ ⭐ ⭐ ☆</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 6 -->
+      <div class="swiper-slide">
+         <div class="producto-card">
+         <div class="producto-img-wrapper">
+         <img src="vistas/img/plantilla/gaseosa.png" alt="Gaseosa cola" class="producto-imagen">
+          <button type="button" class="icono-ubicacion" onclick="verMapa(-25.30066, -57.63591)" aria-label="Ver ubicación">
+           <i class="fas fa-map-marker-alt"></i>
+          </button>
+       </div>
+         <div class="producto-detalle">
+         <h3 class="producto-nombre">Gaseosa Pulp 2L</h3>
+          <p class="producto-precio">Gs. 11.000 <span class="precio-anterior">12.500</span></p>
+          <p class="producto-tienda">Maxi Super</p>
+         <div class="producto-rating">⭐ ⭐ ⭐ ⭐ ☆</div>
+        </div>
+      </div>
+      </div>
+    
+      </div>
+
+    <!-- Botones y paginación propios de esta sección -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+<!-- Modal Ver Mapa -->
+<div class="modal fade" id="modalVerMapa" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ubicación del producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="height: 400px;">
+        <div id="mapVer" style="width:100%; height:100%;"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
+</div>
 
 
 <!-- ==== ESTILOS ==== -->
@@ -338,6 +491,61 @@
     .productos-slider {
         padding: 10px 40px; /* espacio para flechas */
     }
+
+    /* ===== Productos más vendidos (scoped) ===== */
+.masvendidos-section {
+  padding: 30px;
+  background: #ffffff; /* o #f8f9fa si quieres igual que promociones */
+  margin-top: 10px;
+}
+
+/* Espaciado interno del carrusel, deja lugar a las flechas */
+.masvendidos-section .masvendidos-slider {
+  padding: 10px 40px;
+}
+
+/* Opcional: diferenciar sutilmente el título usando tu mismo letrero */
+.masvendidos-section .titulo-resaltado .highlight {
+  color: #ffeb3b;
+  text-shadow: 0 0 10px #ff0000;
+}
+/* Wrapper para superponer el icono sin romper el layout */
+.producto-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 180px;      /* misma altura que tus imágenes */
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f6f7fb;
+}
+.producto-img-wrapper .producto-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Icono de ubicación superpuesto */
+.icono-ubicacion {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 6px;
+  border: 0;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+.icono-ubicacion:hover {
+  transform: scale(1.1);
+  background: #e53935;
+}
+
+
 </style>
 
 
@@ -368,10 +576,44 @@
             nextEl: '.productos-section .swiper-button-next',
             prevEl: '.productos-section .swiper-button-prev',
         },
+        pagination: {
+           el: '.productos-section .swiper-pagination',
+           clickable: true,
+},
+      
+    autoplay: {
+      delay: 3200,
+      disableOnInteraction: false
+    },
         breakpoints: {
             320: { slidesPerView: 1, spaceBetween: 10 },
             640: { slidesPerView: 2, spaceBetween: 15 },
             1024: { slidesPerView: 4, spaceBetween: 20 },
         }
     });
+   
+  /* Slider: Productos más vendidos (independiente del de promociones) */
+  const masVendidosSwiper = new Swiper('.masvendidos-slider', {
+    slidesPerView: 4,
+    spaceBetween: 20,
+    loop: true,
+    navigation: {
+      nextEl: '.masvendidos-section .swiper-button-next',
+      prevEl: '.masvendidos-section .swiper-button-prev',
+    },
+    pagination: {
+      el: '.masvendidos-section .swiper-pagination',
+      clickable: true,
+    },
+    autoplay: {
+      delay: 3200,
+      disableOnInteraction: false
+    },
+    breakpoints: {
+      320:  { slidesPerView: 1, spaceBetween: 10 },
+      640:  { slidesPerView: 2, spaceBetween: 15 },
+      1024: { slidesPerView: 4, spaceBetween: 20 }
+    }
+  });
+
 </script>
