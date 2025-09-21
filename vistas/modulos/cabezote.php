@@ -18,124 +18,138 @@
                 <?php if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"): ?>
                     <li>
                         <a href="perfil">
-                            <i class="fas fa-user" style="color:#f08438; margin-right: 8px;"></i> Mi Perfil
+                            <i class="fas fa-user"></i> Mi Perfil
                         </a>
                     </li>
                     <li>
                         <a href="salir">
-                            <i class="fa fa-sign-out text-red" style="margin-right: 8px;"></i> Cerrar Sesión
+                            <i class="fa fa-sign-out"></i> Cerrar Sesión
                         </a>
                     </li>
                 <?php else: ?>
                     <li>
                         <a href="login">
-                            <i class="fas fa-user" style="color:#c00; margin-right: 8px;"></i> Iniciar Sesión
+                            <i class="fas fa-user"></i> Iniciar Sesión
                         </a>
                     </li>
                 <?php endif; ?>
             </ul>
         </div>
-
     </nav>
 </header>
 
 <style>
-    /* Reset y estilos base para la barra de navegación */
+    /* ============================
+   HEADER LIMPIO PARA OFERTAPP
+===============================*/
+    .main-header {
+        background-color: #3d8cbd;
+        /* Color de fondo gris claro, similar a la imagen */
+        border-bottom: 1px solid #dee2e6;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    }
+
     .main-header .navbar {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 15px;
-        background-color: #f8f9fa;
-        /* Color de fondo gris claro, similar a la imagen */
-        border-bottom: 1px solid #dee2e6;
+        padding: 0 20px;
+        min-height: 60px;
+        background: transparent !important;
+        margin: 0;
     }
 
-    /* Ajuste del logo para que no tenga el fondo azul por defecto */
-    .main-header .logo {
-        background-color: #f8f9fa !important;
-        color: rgba(204, 139, 0, 1) !important;
-        /* Color rojo para el logo */
-        font-weight: bold;
-        width: auto;
-    }
-
-    .main-header .logo:hover {
-        background-color: #f0f0f0 !important;
-    }
-
-    /* Contenedor para los enlaces de navegación del medio */
+    /* Menú izquierdo */
     .navbar-menu-links {
         display: flex;
-        align-items: center;
+        gap: 20px;
         list-style: none;
-        padding-left: 20px;
         margin: 0;
+        padding: 0;
     }
 
     .navbar-menu-links li a {
         display: flex;
         align-items: center;
-        padding: 15px;
-        color: #f0f0f0;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 14px;
+        color: #333;
         text-decoration: none;
-        transition: color 0.2s;
+        transition: color .2s;
+    }
+
+    .navbar-menu-links li a .fas {
+        margin-right: 6px;
+        color: #f08438;
     }
 
     .navbar-menu-links li a:hover,
     .navbar-menu-links li.active a {
-        color: #f0f0f0
-            /* Color rojo al pasar el mouse o en la página activa */
-    }
-
-    .navbar-menu-links li a .fas {
-        margin-right: 8px;
-        /* Espacio entre el icono y el texto */
         color: #f08438;
-        /* Color rojo para los iconos */
     }
 
-    /* Contenedor de la barra de búsqueda para que ocupe el espacio sobrante */
+    /* Buscador centrado */
     .navbar-search-container {
         flex-grow: 1;
-        /* Permite que este contenedor crezca y ocupe el espacio disponible */
         display: flex;
         justify-content: center;
-        padding: 0 40px;
+        padding: 0 20px;
     }
 
     .search-form {
-        position: relative;
         width: 100%;
-        max-width: 450px;
-        /* Ancho máximo para la barra de búsqueda */
+        max-width: 420px;
+        position: relative;
     }
 
-    .search-form input[type="text"] {
+    .search-form input {
         width: 100%;
-        padding: 8px 40px 8px 15px;
-        /* Espacio para el icono */
+        padding: 8px 40px 8px 14px;
         border: 1px solid #ccc;
-        border-radius: 20px;
-        /* Bordes redondeados */
+        border-radius: 30px;
         font-size: 14px;
     }
 
     .search-form button {
         position: absolute;
-        right: 0;
         top: 0;
+        right: 0;
         height: 100%;
         width: 40px;
-        background: none;
         border: none;
-        cursor: pointer;
-        color: #f0f0f0;
+        background: transparent;
+        color: #888;
         font-size: 16px;
+        cursor: pointer;
     }
 
-    .sidebar-toggle {
-        display: none !important;
+    /* Menú derecho */
+    .navbar-custom-menu .nav {
+        display: flex;
+        gap: 15px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar-custom-menu .nav li a {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 14px;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .navbar-custom-menu .nav li a i {
+        margin-right: 6px;
+        color: #f08438;
+    }
+
+    .navbar-custom-menu .nav li a:hover {
+        color: #f08438;
     }
 </style>

@@ -13,16 +13,36 @@ session_start();
     <link rel="stylesheet" href="vistas/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="vistas/dist/css/AdminLTE.css">
     <link rel="stylesheet" href="vistas/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <script src="vistas/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- Font Awesome 5 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <style>
+        .content-header {
+            display: none !important;
+        }
+
+        /* Ocultar por completo la franja del content-header */
+        .content-header {
+            display: none !important;
+            height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Asegurar que el content-wrapper no deje espacio */
+        .content-wrapper {
+            padding-top: 0 !important;
+        }
+    </style>
 
 </head>
 
@@ -41,12 +61,19 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
 <body class="<?php echo $bodyClass; ?>">
 
     <?php
-    // Si la página a mostrar NO es una de las de login, muestra la estructura principal del panel
     if ($bodyClass != 'login-page') {
         echo '<div class="wrapper">';
-        // Incluimos cabezote y menú
         include __DIR__ . "/modulos/cabezote.php";
-        include __DIR__ . "/modulos/menu.php";
+        // Solo generamos el menú y el contenedor si es comerciante
+        if (isset($_SESSION["tipo_usuario"]) && $_SESSION["tipo_usuario"] === "comercial") {
+            include __DIR__ . "/modulos/menu.php";
+        } else {
+            // Si no es comerciante, quitamos la clase sidebar-mini para evitar el espacio
+            echo "<script>
+        document.body.classList.remove('sidebar-mini');
+        document.body.classList.add('sidebar-collapse');
+    </script>";
+        }
     }
 
     // --- ROUTER FINAL ---
