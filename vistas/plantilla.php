@@ -13,7 +13,6 @@ session_start();
     <link rel="stylesheet" href="vistas/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="vistas/dist/css/AdminLTE.css">
     <link rel="stylesheet" href="vistas/dist/css/skins/skin-blue.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <script src="vistas/bower_components/jquery/dist/jquery.min.js"></script>
@@ -21,28 +20,8 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <!-- Font Awesome 5 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <style>
-        .content-header {
-            display: none !important;
-        }
-
-        /* Ocultar por completo la franja del content-header */
-        .content-header {
-            display: none !important;
-            height: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        /* Asegurar que el content-wrapper no deje espacio */
-        .content-wrapper {
-            padding-top: 0 !important;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 </head>
 
