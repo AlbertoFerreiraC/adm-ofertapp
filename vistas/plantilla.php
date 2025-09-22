@@ -21,7 +21,7 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 </head>
 
@@ -115,6 +115,12 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
 
     // Si abrimos la estructura principal, también la cerramos
     if ($bodyClass != 'login-page') {
+
+        // Mostrar footer SOLO si NO es comerciante
+        if (!isset($_SESSION["tipo_usuario"]) || $_SESSION["tipo_usuario"] !== "comercial") {
+            include __DIR__ . "/modulos/footer.php";
+        }
+
         echo '</div>'; // Fin de .wrapper
     }
     ?>

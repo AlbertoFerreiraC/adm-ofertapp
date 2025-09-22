@@ -174,7 +174,7 @@
               <div class="oferta-seller-name">Lucas Martínez</div>
               <a class="oferta-seller-link" href="#" target="_blank" rel="noopener">Ir al sitio del vendedor <i class="fa-solid fa-up-right-from-square"></i></a>
               <div class="oferta-contact">
-                <span><i class="fa-solid fa-phone"></i> <a href="tel:+595973105428">+595973105428</a> <i class="fa-brands fa-whatsapp" style="color:#25d366"></i></span>
+                <span><i class="fa-solid fa-phone"></i> <a href="tel:+595983232390">+595983232390</a> <i class="fa-brands fa-whatsapp" style="color:#25d366"></i></span>
                 <span><i class="fa-solid fa-envelope"></i> <a href="mailto:lucasemb105428@gmail.com">lucasemb105428@gmail.com</a></span>
               </div>
             </div>
