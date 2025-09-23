@@ -6,11 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Cuenta</title>
     <style>
-        /* --- ESTILOS GENERALES Y DE FONDO (CORREGIDO) --- */
         body {
-            /* Forzamos el fondo degradado claro para toda la página */
             background: linear-gradient(135deg, #fefefe, #D0D5D7) !important;
-
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,7 +18,6 @@
             box-sizing: border-box;
         }
 
-        /* --- CONTENEDOR PRINCIPAL (LA TARJETA BLANCA) --- */
         .register-container {
             background: #ffffff;
             padding: 50px 60px;
@@ -35,7 +31,6 @@
             gap: 40px;
         }
 
-        /* --- ESTILOS PARA LOS TÍTULOS --- */
         .selection-header {
             text-align: center;
         }
@@ -54,7 +49,6 @@
             margin: 10px 0 0 0;
         }
 
-        /* --- CONTENEDOR DE LAS TARJETAS --- */
         .account-options {
             display: flex;
             gap: 40px;
@@ -62,7 +56,6 @@
             align-items: center;
         }
 
-        /* --- ESTILO DE CADA TARJETA --- */
         .account-card {
             background-color: #fff;
             border: 1px solid #e0e0e0;
@@ -99,7 +92,6 @@
             height: 60px;
         }
 
-        /* --- EFECTOS HOVER Y ACTIVE --- */
         .account-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
@@ -120,7 +112,6 @@
             border-width: 2px;
         }
 
-        /* --- ESTILOS DEL MODAL --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -140,10 +131,12 @@
             padding: 35px;
             border-radius: 16px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 480px;
+            width: 95%;
+            max-width: 800px;
             text-align: center;
             animation: fadeIn 0.3s ease-in-out;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @keyframes fadeIn {
@@ -165,12 +158,18 @@
             font-weight: bold;
         }
 
-        .form-group {
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             text-align: left;
-            margin-bottom: 18px;
         }
 
-        .form-group label {
+        .form-grid .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-grid label {
             font-size: 14px;
             color: #74808C;
             display: block;
@@ -178,13 +177,21 @@
             font-weight: bold;
         }
 
-        .form-group input {
+        .form-grid input {
             box-sizing: border-box;
             width: 100%;
             padding: 12px !important;
             border: 1px solid #D0D5D7;
             border-radius: 8px;
             font-size: 14px;
+        }
+
+        #map {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            margin-top: 10px;
+            grid-column: span 2;
         }
 
         button[type="submit"] {
@@ -219,6 +226,12 @@
         .extra-links a:hover {
             color: #113f5f;
         }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -232,13 +245,13 @@
         <div class="account-options">
             <div class="account-card" data-value="personal">
                 <div class="icon-circle">
-                    <img src="https://api.iconify.design/solar:user-circle-bold-duotone.svg?color=%23e85e2b" alt="Icono de cuenta personal">
+                    <img src="https://api.iconify.design/solar:user-circle-bold-duotone.svg?color=%23e85e2b">
                 </div>
                 <span>Cuenta personal</span>
             </div>
             <div class="account-card" data-value="comercial">
                 <div class="icon-circle">
-                    <img src="https://api.iconify.design/solar:shop-2-bold-duotone.svg?color=%232b8de8" alt="Icono de cuenta comercial">
+                    <img src="https://api.iconify.design/solar:shop-2-bold-duotone.svg?color=%232b8de8">
                 </div>
                 <span>Cuenta comercial</span>
             </div>
@@ -248,76 +261,164 @@
     <div class="modal-overlay">
         <div class="register-modal">
             <h2>Crear una cuenta</h2>
-            <form id="registerForm" method="POST">
+            <form id="registerForm" method="POST" class="form-grid">
                 <input type="hidden" name="tipoCuenta" id="tipoCuenta">
+
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" required>
+                    <input type="text" id="nombre" name="nombre" required>
                 </div>
 
                 <div class="form-group">
                     <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" placeholder="Ingrese su apellido" required>
+                    <input type="text" id="apellido" name="apellido" required>
                 </div>
 
                 <div class="form-group">
                     <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" placeholder="Se generará automáticamente" readonly required>
+                    <input type="text" id="usuario" name="usuario" readonly required>
                 </div>
+
                 <div class="form-group">
                     <label for="email">Correo electrónico:</label>
-                    <input type="email" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
+                    <input type="email" id="email" name="email" required>
                 </div>
+
                 <div class="form-group">
                     <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" placeholder="Cree una contraseña" required>
+                    <input type="password" id="password" name="password" required>
                 </div>
-                <div class="form-group" id="latGroup" style="display:none;">
-                    <label for="latitud">Latitud del negocio:</label>
-                    <input type="text" id="latitud" name="latitud" placeholder="Ingrese la latitud">
+
+                <!-- CAMPOS DE EMPRESA (solo si es comercial) -->
+                <div id="empresaGroup" style="display:none; grid-column: span 2; margin-top:15px;">
+                    <h2>Datos de la Empresa</h2>
+
+                    <div class="form-group col-md-6">
+                        <label for="nombreEmpresa">Nombre de la empresa:</label>
+                        <input type="text" id="nombreEmpresa" name="nombreEmpresa">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="direccionEmpresa">Calle:</label>
+                        <input type="text" id="direccionEmpresa" name="direccionEmpresa">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="numeroEmpresa">Número:</label>
+                        <input type="text" id="numeroEmpresa" name="numeroEmpresa">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="barrioEmpresa">Barrio:</label>
+                        <input type="text" id="barrioEmpresa" name="barrioEmpresa">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="ciudadEmpresa">Ciudad:</label>
+                        <input type="text" id="ciudadEmpresa" name="ciudadEmpresa">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="departamentoEmpresa">Departamento:</label>
+                        <input type="text" id="departamentoEmpresa" name="departamentoEmpresa">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="paisEmpresa">País:</label>
+                        <input type="text" id="paisEmpresa" name="paisEmpresa" value="Paraguay">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="categoriaEmpresa">Categoría:</label>
+                        <select class="form-control input-md cajatexto solo-ruc" id="categoriaEmpresa" name="categoriaEmpresa"></select>
+                    </div>
                 </div>
-                <div class="form-group" id="lngGroup" style="display:none;">
-                    <label for="longitud">Longitud del negocio:</label>
-                    <input type="text" id="longitud" name="longitud" placeholder="Ingrese la longitud">
+
+                <!-- MAPA SOLO PARA CUENTA COMERCIAL -->
+                <div id="mapGroup" style="display:none; grid-column: span 2;">
+                    <label>Ubicación del negocio:</label>
+                    <div id="map"></div>
+                    <input type="hidden" id="latitud" name="latitud">
+                    <input type="hidden" id="longitud" name="longitud">
                 </div>
-                <button type="submit">REGISTRAR</button>
+
+                <div style="grid-column: span 2;">
+                    <button type="submit">REGISTRAR</button>
+                </div>
             </form>
+
             <div class="extra-links">
                 <a href="index.php?ruta=login">¿Ya tienes cuenta? Inicia sesión aquí</a>
             </div>
         </div>
     </div>
 
+    <!-- JS DE LA LÓGICA -->
     <script>
+        let map, marker;
         const cards = document.querySelectorAll('.account-card');
         const modal = document.querySelector('.modal-overlay');
         const tipoInput = document.getElementById('tipoCuenta');
-        const latGroup = document.getElementById('latGroup');
-        const lngGroup = document.getElementById('lngGroup');
+
         cards.forEach(card => {
             card.addEventListener('click', () => {
                 cards.forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
                 tipoInput.value = card.dataset.value;
                 modal.style.display = 'flex';
+
                 if (card.dataset.value === 'comercial') {
-                    latGroup.style.display = 'block';
-                    lngGroup.style.display = 'block';
+                    document.getElementById('empresaGroup').style.display = 'block';
+                    document.getElementById('mapGroup').style.display = 'block';
+                    setTimeout(initMap, 400);
                 } else {
-                    latGroup.style.display = 'none';
-                    lngGroup.style.display = 'none';
+                    document.getElementById('empresaGroup').style.display = 'none';
+                    document.getElementById('mapGroup').style.display = 'none';
                 }
             });
         });
+
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
                 cards.forEach(c => c.classList.remove('active'));
             }
         });
-    </script>
-</body>
 
-<script src="vistas/js/regiser.js"></script>
+        function initMap() {
+            if (!map) {
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: {
+                        lat: -25.2637,
+                        lng: -57.5759
+                    }, // Asunción por defecto
+                    zoom: 13,
+                });
+
+                map.addListener("click", (e) => {
+                    const lat = e.latLng.lat();
+                    const lng = e.latLng.lng();
+
+                    if (marker) {
+                        marker.setPosition(e.latLng);
+                    } else {
+                        marker = new google.maps.Marker({
+                            position: e.latLng,
+                            map: map,
+                        });
+                    }
+
+                    document.getElementById("latitud").value = lat;
+                    document.getElementById("longitud").value = lng;
+                });
+            }
+        }
+    </script>
+
+    <!-- GOOGLE MAPS API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuAZrhi9qDqGs9x8K_xucxfIE8iwQTkKw&callback=initMap" async defer></script>
+    <script src="vistas/js/regiser.js"></script>
+
+</body>
 
 </html>

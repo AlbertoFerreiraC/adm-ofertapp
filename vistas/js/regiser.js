@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    // Generar automáticamente el usuario cuando se escriba nombre/apellido
     $("#nombre, #apellido").on("keyup", function () {
         const nombre = $("#nombre").val().trim();
         const apellido = $("#apellido").val().trim();
@@ -13,7 +12,6 @@ $(document).ready(function () {
         }
     });
 
-    // Captura submit del formulario
     $("#registerForm").on("submit", function (e) {
         e.preventDefault();
         agregarDatos();
@@ -22,16 +20,29 @@ $(document).ready(function () {
 });
 
 function agregarDatos() {
+    const tipoCuenta = $("#tipoCuenta").val();
+
     const params = {
         "nombre": $("#nombre").val(),
         "apellido": $("#apellido").val(),
         "usuario": $("#usuario").val(),
         "email": $("#email").val(),
         "password": $("#password").val(),
-        "tipoCuenta": $("#tipoCuenta").val(),
+        "tipoCuenta": tipoCuenta,
         "latitud": $("#latitud").val(),
         "longitud": $("#longitud").val()
     };
+
+    if (tipoCuenta === "comercial") {
+        params.nombreEmpresa     = $("#nombreEmpresa").val();
+        params.direccionEmpresa  = $("#direccionEmpresa").val();
+        params.numeroEmpresa     = $("#numeroEmpresa").val();
+        params.barrioEmpresa     = $("#barrioEmpresa").val();
+        params.ciudadEmpresa     = $("#ciudadEmpresa").val();
+        params.departamentoEmpresa = $("#departamentoEmpresa").val();
+        params.paisEmpresa       = $("#paisEmpresa").val();
+        params.categoriaEmpresa  = $("#categoriaEmpresa").val();
+    }
 
     $.ajax({
         url: "../api-ofertapp/sesiones/funAgregar.php",
