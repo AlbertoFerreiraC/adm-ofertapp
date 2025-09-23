@@ -9,7 +9,6 @@
     </section>
 
     <section class="content">
-
         <!-- MÉTRICAS PRINCIPALES -->
         <div class="row">
             <!-- Promedio de ventas -->
@@ -119,9 +118,7 @@
         </div>
 
     </section>
+
 </div>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Script del dashboard comerciante -->
 <script src="vistas/js/dashboard_comerciante.js"></script>

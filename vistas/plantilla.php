@@ -22,16 +22,13 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
 </head>
 
 <?php
-// Determinamos la ruta. Por defecto, siempre será 'dashboard'.
 $ruta = isset($_GET["ruta"]) ? $_GET["ruta"] : 'dashboard';
 
-// <-- CAMBIO CLAVE: Se elimina toda la lógica de rutas protegidas. Ya no es necesaria.
-
-// Determinamos la clase del body según la ruta actual
 $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-password' || $ruta == 'register')
     ? 'login-page'
     : 'hold-transition skin-blue sidebar-mini';
@@ -43,11 +40,9 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
     if ($bodyClass != 'login-page') {
         echo '<div class="wrapper">';
         include __DIR__ . "/modulos/cabezote.php";
-        // Solo generamos el menú y el contenedor si es comerciante
         if (isset($_SESSION["tipo_usuario"]) && $_SESSION["tipo_usuario"] === "comercial") {
             include __DIR__ . "/modulos/menu.php";
         } else {
-            // Si no es comerciante, quitamos la clase sidebar-mini para evitar el espacio
             echo "<script>
         document.body.classList.remove('sidebar-mini');
         document.body.classList.add('sidebar-collapse');
@@ -55,9 +50,6 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         }
     }
 
-    // --- ROUTER FINAL ---
-    // Carga el módulo correspondiente a la ruta
-    // Añadí las rutas que faltaban de tu menú para evitar errores 404
     $rutasExistentes = [
         "dashboard",
         "login",
@@ -94,7 +86,8 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "register",
         "dashboard_comerciante",
         "nosotros",
-        "descripcionProductos"
+        "descripcionProductos",
+        "agregar_producto"
     ];
 
 
@@ -113,15 +106,11 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
     }
 
 
-    // Si abrimos la estructura principal, también la cerramos
     if ($bodyClass != 'login-page') {
-
-        // Mostrar footer SOLO si NO es comerciante
         if (!isset($_SESSION["tipo_usuario"]) || $_SESSION["tipo_usuario"] !== "comercial") {
             include __DIR__ . "/modulos/footer.php";
         }
-
-        echo '</div>'; // Fin de .wrapper
+        echo '</div>';
     }
     ?>
 
@@ -129,6 +118,7 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
     <script src="vistas/dist/js/adminlte.min.js"></script>
     <script src="vistas/js/plantilla.js"></script>
     <script src="vistas/js/login.js"></script>
+
 </body>
 
 </html>
