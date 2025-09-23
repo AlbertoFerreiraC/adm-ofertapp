@@ -2,7 +2,7 @@
     <nav class="navbar navbar-static-top">
         <ul class="navbar-menu-links">
             <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
-            <li><a href="#"><i class="fas fa-tags"></i> Productos</a></li>
+            <li><a href="productos"><i class="fas fa-tags"></i> Productos</a></li>
         </ul>
 
         <div class="navbar-search-container">
