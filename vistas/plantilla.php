@@ -23,7 +23,7 @@ session_start();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
 </head>
 
 <?php
@@ -118,6 +118,16 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
     <script src="vistas/dist/js/adminlte.min.js"></script>
     <script src="vistas/js/plantilla.js"></script>
     <script src="vistas/js/login.js"></script>
+
+    <!-- Google Map-->
+    <script>
+        function initGlobalMap() {
+            // Callback vacío global (evita error si no se usa en alguna vista)
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuAZrhi9qDqGs9x8K_xucxfIE8iwQTkKw&callback=initGlobalMap">
+    </script>
 
 </body>
 

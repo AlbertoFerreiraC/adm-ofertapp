@@ -1,7 +1,5 @@
 $(document).ready(function () {
-
     cargarProductos();
-
 });
 
 function cargarProductos() {
@@ -30,7 +28,7 @@ function cargarProductos() {
                     : "";
 
                 cards += `
-                    <div class="producto-card">
+                    <div class="producto-card" data-id="${item.id}">
                         <div class="producto-img-wrapper">
                             <img src="${item.img}" alt="${item.nombre}" class="producto-imagen">
                             <button type="button" class="icono-ubicacion" 
@@ -56,12 +54,19 @@ function cargarProductos() {
             $("#gridProductos").append(cards);
 
             // Evento de ver mapa
-            $(".icono-ubicacion").click(function () {
+            $(".icono-ubicacion").click(function (e) {
+                e.stopPropagation(); // evitar que dispare el click de la tarjeta
                 verMapa(
                     Number($(this).data("lat")),
                     Number($(this).data("lng")),
                     $(this).data("titulo")
                 );
+            });
+
+            // Evento para ir al detalle al tocar la tarjeta
+            $(".producto-card").click(function () {
+                const id = $(this).data("id");
+                window.location.href = `descripcionProductos?id=${id}`;
             });
         },
         error: function () {

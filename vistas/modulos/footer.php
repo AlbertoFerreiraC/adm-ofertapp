@@ -73,7 +73,7 @@
     });
   };
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMapFooter"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuAZrhi9qDqGs9x8K_xucxfIE8iwQTkKw&callback=initMapFooter"></script>
 
 <style>
   .footer {

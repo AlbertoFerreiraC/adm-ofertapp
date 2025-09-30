@@ -1,7 +1,7 @@
 <header class="main-header">
     <nav class="navbar navbar-static-top">
         <ul class="navbar-menu-links">
-            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="dashboard"><i class="fas fa-home"></i> Inicio</a></li>
             <li><a href="productos"><i class="fas fa-tags"></i> Productos</a></li>
         </ul>
 
