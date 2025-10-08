@@ -1,55 +1,75 @@
 <aside class="main-sidebar">
   <section class="sidebar">
-    <!-- Menú principal (sin user-panel) -->
+    <!-- Menú principal -->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MENÚ PRINCIPAL</li>
-      <li class="treeview">
-        <a href="#"><i class="fa fa-book"></i><span>Gestión de Catálogo</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-        <ul class="treeview-menu">
-          <li><a href="productos"><i class="fa fa-cube"></i> Productos</a></li>
-          <li><a href="agregar_producto"><i class="fa fa-cube"></i> Agregar Productos</a></li>
-          <li><a href="membresias_planes"><i class="fa fa-star"></i> Ofertas</a></li>
-        </ul>
-      </li>
 
-      <li class="treeview">
-        <a href="#"><i class="fa fa-building"></i><span>Mi Empresa</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-        <ul class="treeview-menu">
-          <li><a href="empresa"><i class="fa fa-industry"></i> Registro de Empresas</a></li>
-          <li><a href="categorias"><i class="fa fa-tags"></i> Categorías</a></li>
-        </ul>
-      </li>
+      <?php if (isset($_SESSION['tipo_usuario'])): ?>
 
-      <li><a href="descripcionProductos"><i class="fa fa-id-card"></i> Membresías</a></li>
+        <!-- 🧍 PERFIL PERSONAL -->
+        <?php if ($_SESSION['tipo_usuario'] == 'personal'): ?>
+          <li><a href="inicio"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
 
-      <li class="treeview">
-        <a href="#"><i class="fa fa-users"></i><span>Clientes</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-        <ul class="treeview-menu">
-          <li><a href="clientes"><i class="fa fa-list"></i> Gestionar Clientes</a></li>
-        </ul>
-      </li>
+          <li><a href="productos"><i class="fa fa-cube"></i> <span>Productos</span></a></li>
 
-      <li class="treeview">
-        <a href="#"><i class="fa fa-bar-chart"></i><span>Informes</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-        <ul class="treeview-menu">
-          <li><a href="informe-busquedas"><i class="fa fa-line-chart"></i> Búsquedas Populares</a></li>
-          <li><a href="informe-productos"><i class="fa fa-pie-chart"></i> Productos Populares</a></li>
-          <li><a href="informe-empresas"><i class="fa fa-area-chart"></i> Actividad de Empresas</a></li>
-        </ul>
-      </li>
+          <li><a href="mis_reservas"><i class="fa fa-shopping-cart"></i> <span>Mis Reservas</span></a></li>
+          <li><a href="historial"><i class="fa fa-history"></i> <span>Historial</span></a></li>
+          <li><a href="retroalimentacion"><i class="fa fa-comment"></i> <span>Opiniones y Reseñas</span></a></li>
+          <li><a href="perfil"><i class="fa fa-user"></i> <span>Mi Perfil</span></a></li>
+        <?php endif; ?>
 
-      <li><a href="nosotros"><i class="fa fa-info-circle"></i> <span>Nosotros</span></a></li>
+        <!-- 🏪 PERFIL COMERCIAL -->
+        <?php if ($_SESSION['tipo_usuario'] == 'comercial'): ?>
+          <li><a href="inicio"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
 
-      <?php if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == "Administrador"): ?>
+          <li class="treeview">
+            <a href="#"><i class="fa fa-book"></i><span>Gestión de Catálogo</span>
+              <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+            <ul class="treeview-menu">
+              <li><a href="productos"><i class="fa fa-cube"></i> Mis Productos</a></li>
+              <li><a href="agregar_producto"><i class="fa fa-plus-square"></i> Agregar Producto</a></li>
+              <li><a href="ofertas"><i class="fa fa-star"></i> Ofertas Activas</a></li>
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#"><i class="fa fa-building"></i><span>Mi Empresa</span>
+              <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+            <ul class="treeview-menu">
+              <li><a href="empresa"><i class="fa fa-industry"></i> Datos de la Empresa</a></li>
+              <li><a href="membresia"><i class="fa fa-id-card"></i> Membresía / Plan</a></li>
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#"><i class="fa fa-bar-chart"></i><span>Informes</span>
+              <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+            <ul class="treeview-menu">
+              <li><a href="informe-busquedas"><i class="fa fa-line-chart"></i> Búsquedas Populares</a></li>
+              <li><a href="informe-productos"><i class="fa fa-pie-chart"></i> Productos Más Consultados</a></li>
+              <li><a href="informe-ventas"><i class="fa fa-area-chart"></i> Actividad Comercial</a></li>
+            </ul>
+          </li>
+
+          <li><a href="retroalimentacion"><i class="fa fa-comments"></i> <span>Comentarios de Clientes</span></a></li>
+          <li><a href="perfil"><i class="fa fa-user"></i> <span>Mi Perfil</span></a></li>
+        <?php endif; ?>
+
+      <?php endif; ?>
+
+      <!-- ⚙️ ADMINISTRADOR -->
+      <?php if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == "administrador"): ?>
         <li class="treeview">
-          <a href="#"><i class="fa fa-cogs"></i><span>Administración</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+          <a href="#"><i class="fa fa-cogs"></i><span>Administración</span>
+            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
           <ul class="treeview-menu">
             <li><a href="usuarios"><i class="fa fa-user-plus"></i> Usuarios</a></li>
-            <li><a href="perfil"><i class="fa fa-user"></i> Mi Perfil</a></li>
+            <li><a href="perfil_admin"><i class="fa fa-user-circle"></i> Mi Perfil Admin</a></li>
           </ul>
         </li>
       <?php endif; ?>
 
+      <!-- 🔐 LOGIN / LOGOUT -->
       <?php if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"): ?>
         <li><a href="salir"><i class="fa fa-sign-out text-red"></i> <span>Cerrar Sesión</span></a></li>
       <?php else: ?>

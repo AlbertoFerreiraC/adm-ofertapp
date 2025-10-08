@@ -40,13 +40,16 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
     if ($bodyClass != 'login-page') {
         echo '<div class="wrapper">';
         include __DIR__ . "/modulos/cabezote.php";
-        if (isset($_SESSION["tipo_usuario"]) && $_SESSION["tipo_usuario"] === "comercial") {
+
+        // Mostrar menú según tipo de perfil
+        if (isset($_SESSION["tipo_usuario"])) {
             include __DIR__ . "/modulos/menu.php";
         } else {
+            // Si no hay perfil (visitante o sin sesión), colapsar sidebar
             echo "<script>
-        document.body.classList.remove('sidebar-mini');
-        document.body.classList.add('sidebar-collapse');
-    </script>";
+            document.body.classList.remove('sidebar-mini');
+            document.body.classList.add('sidebar-collapse');
+        </script>";
         }
     }
 
@@ -87,7 +90,8 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "dashboard_comerciante",
         "nosotros",
         "descripcionProductos",
-        "agregar_producto"
+        "agregar_producto",
+        "ofertas_activas"
     ];
 
 

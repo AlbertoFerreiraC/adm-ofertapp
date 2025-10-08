@@ -3,14 +3,14 @@ $(document).ready(function () {
     // Cargar tabla de productos
     cargarDatosTablaProducto();
 
-    // Botón Guardar
+    // Botón Guardar (Agregar)
     $('#formProductoAgregar').submit(function (e) {
         e.preventDefault();
         agregarProducto();
     });
 
-    // Botón Modificar
-    $('#formProductoModificar').submit(function (e) {
+    // Botón Guardar Cambios (Editar)
+    $('#formProductoEditar').submit(function (e) {
         e.preventDefault();
         modificarProducto();
     });
@@ -24,7 +24,7 @@ $(document).ready(function () {
         });
     });
 
-    // Cargar categorías al abrir modal
+    // Cargar categorías al abrir modal agregar
     categoriaProductoAgregar();
 });
 
@@ -60,14 +60,10 @@ function cargarDatosTablaProducto() {
                         <td>
                             <center>
                                 <div class="btn-group">
-                                    <button title="Modificar" class="btn btn-warning btnModificarProducto" 
-                                        id="${item.idProducto}" 
-                                        data-toggle="modal" 
-                                        data-target="#modalModificarProducto">
+                                    <button title="Modificar" class="btn btn-warning btnModificarProducto" id="${item.idProducto}">
                                         <i class="fa fa-pencil"></i>
                                     </button>
-                                    <button title="Eliminar" class="btn btn-danger btnEliminarProducto" 
-                                        id="${item.idProducto}">
+                                    <button title="Eliminar" class="btn btn-danger btnEliminarProducto" id="${item.idProducto}">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -79,11 +75,13 @@ function cargarDatosTablaProducto() {
 
             $('#tablaProductos tbody').append(filas);
 
-            // Eventos dinámicos
+            // Evento dinámico: modificar producto
             $('.btnModificarProducto').click(function () {
-                obtenerDatosProducto(this.id);
+                const idProducto = this.id;
+                obtenerDatosProducto(idProducto);
             });
 
+            // Evento dinámico: eliminar producto
             $('.btnEliminarProducto').click(function () {
                 const id = this.id;
                 Swal.fire({
@@ -161,22 +159,28 @@ function obtenerDatosProducto(idProducto) {
         method: "POST",
         data: JSON.stringify({ idProducto: idProducto }),
         contentType: "application/json; charset=utf-8",
-        processData: false,
         dataType: "json",
         success: function (response) {
             if (response.length > 0) {
-                $("#idModificarProducto").val(response[0].idProducto);
-                $("#tituloModificar").val(response[0].titulo);
-                $("#descripcionModificar").val(response[0].descripcion);
-                $("#cantidadModificar").val(response[0].cantidad);
-                $("#costoModificar").val(response[0].costo);
-                $("#colorModificar").val(response[0].color);
-                $("#tamanoModificar").val(response[0].tamano);
-                $("#condicionModificar").val(response[0].condicion);
-                $("#estadoModificar").val(response[0].estado);
-                $("#previewImagenModificar").attr("src", response[0].imagen);
+                const p = response[0];
 
-                categoriaProductoModificar(response[0].Categoria_idCategoria);
+                // Cargar datos en el modal
+                $("#idProductoEditar").val(p.idProducto);
+                $("#titulo_editar").val(p.titulo);
+                $("#descripcion_editar").val(p.descripcion);
+                $("#cantidad_editar").val(p.cantidad);
+                $("#costo_editar").val(p.costo);
+                $("#color_editar").val(p.color);
+                $("#tamano_editar").val(p.tamano);
+                $("#condicion_editar").val(p.condicion);
+                $("#estado_editar").val(p.estado);
+                $("#previewImagenEditar").attr("src", p.imagen);
+
+                // Cargar categoría seleccionada
+                categoriaProductoEditar(p.Categoria_idCategoria);
+
+                // Mostrar modal de edición
+                $("#modalEditarProducto").modal("show");
             }
         },
         error: function () {
@@ -191,7 +195,7 @@ function obtenerDatosProducto(idProducto) {
 
 // -------- Modificar --------
 function modificarProducto() {
-    var formData = new FormData($("#formProductoModificar")[0]);
+    var formData = new FormData($("#formProductoEditar")[0]);
 
     $.ajax({
         url: "../api-ofertapp/producto/funModificar.php",
@@ -207,7 +211,7 @@ function modificarProducto() {
                     title: "Producto modificado con éxito"
                 }).then(() => {
                     cargarDatosTablaProducto();
-                    $("#modalModificarProducto").modal("hide");
+                    $("#modalEditarProducto").modal("hide");
                 });
             } else {
                 Swal.fire({
@@ -233,7 +237,6 @@ function eliminarProducto(idProducto) {
         method: "POST",
         data: JSON.stringify({ idProducto: idProducto }),
         contentType: "application/json; charset=utf-8",
-        processData: false,
         dataType: "json",
         success: function (response) {
             if (response['mensaje'] === "ok") {
@@ -263,7 +266,7 @@ function eliminarProducto(idProducto) {
 // -------- Categorías --------
 function categoriaProductoAgregar() {
     $('#categoriaProducto').empty();
-    $('#categoriaProducto').append('<option value ="">Seleccionar...</option>');
+    $('#categoriaProducto').append('<option value="">Seleccionar...</option>');
 
     $.ajax({
         url: "../api-ofertapp/categoria/funListar.php",
@@ -277,17 +280,17 @@ function categoriaProductoAgregar() {
     });
 }
 
-function categoriaProductoModificar(idCategoria) {
-    $('#categoriaProductoModificar').empty();
+function categoriaProductoEditar(idCategoria) {
+    $('#categoria_editar').empty();
     $.ajax({
         url: "../api-ofertapp/categoria/funListar.php",
         method: "GET",
         dataType: "json",
         success: function (response) {
             response.forEach(cat => {
-                $('#categoriaProductoModificar').append('<option value="' + cat.id + '">' + cat.descripcion + '</option>');
+                $('#categoria_editar').append('<option value="' + cat.id + '">' + cat.descripcion + '</option>');
             });
-            $("#categoriaProductoModificar").val(idCategoria);
+            $("#categoria_editar").val(idCategoria);
         }
     });
 }

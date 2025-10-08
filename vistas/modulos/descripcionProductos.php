@@ -529,6 +529,44 @@
       overflow-y: auto;
       padding-right: 6px;
     }
+
+    .btn-reserva {
+      background: #007bff;
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn-reserva:hover {
+      background: #0056b3;
+      transform: scale(1.03);
+    }
+
+    .btn-reserva:active {
+      background: #003f88;
+      transform: scale(0.98);
+    }
+
+    #modalReserva .form-control {
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    #modalReserva .btn-primary {
+      background: #007bff;
+      border: none;
+      font-weight: 600;
+    }
+
+    #modalReserva .btn-primary:hover {
+      background: #0056b3;
+    }
   </style>
 </head>
 
@@ -557,6 +595,8 @@
             <button class="oferta-icon warn" title="Reportar"><i class="fa-solid fa-triangle-exclamation"></i></button>
           </div>
           <div class="oferta-price" id="precioProducto">Gs. 0</div>
+          <button id="btnReserva" class="btn-reserva">Reservar producto</button>
+
         </div>
       </header>
 
@@ -644,6 +684,39 @@
       </section>
     </section>
   </div>
+
+  <!-- ================== MODAL DE RESERVA ================== -->
+  <div class="modal fade" id="modalReserva" tabindex="-1" aria-labelledby="modalReservaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 12px; overflow: hidden;">
+        <div class="modal-header" style="background-color: #007bff; color: #fff;">
+          <h5 class="modal-title" id="modalReservaLabel"><i class="fa-solid fa-cart-plus"></i> Realizar reserva</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" style="background:none;border:0;color:#fff;font-size:20px;">×</button>
+        </div>
+        <div class="modal-body">
+          <form id="formReserva">
+            <input type="hidden" id="reservaProductoId">
+
+            <div class="mb-3">
+              <label for="cantidadReserva" class="form-label"><b>Cantidad a reservar:</b></label>
+              <input type="number" id="cantidadReserva" class="form-control" min="1" placeholder="Ingrese cantidad" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="comentarioReserva" class="form-label"><b>Comentario (opcional):</b></label>
+              <textarea id="comentarioReserva" class="form-control" rows="3" placeholder="Ingrese un comentario si desea..."></textarea>
+            </div>
+
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Confirmar reserva</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <script src="vistas/js/descripcionProducto.js"></script>
 </body>

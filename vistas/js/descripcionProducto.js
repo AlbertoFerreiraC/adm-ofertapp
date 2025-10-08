@@ -247,3 +247,100 @@ $(document).on("submit", "#reviewForm", function (e) {
     });
 });
 
+// -------- Mostrar modal con usuario logueado --------
+$(document).on("click", "#btnReserva", function () {
+    const params = new URLSearchParams(window.location.search);
+    const idProducto = params.get("id");
+
+    $.ajax({
+        url: "../api-ofertapp/usuario/funVerificarSesion.php",
+        method: "GET",
+        cache: false,
+        dataType: "json",
+        success: function (resp) {
+            if (resp.logueado) {
+                // Muestra el modal y coloca los datos
+                $("#modalReserva").modal("show");
+                $("#reservaProductoId").val(idProducto);
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Iniciá sesión para continuar",
+                    text: "Debes iniciar sesión para poder reservar este producto.",
+                    confirmButtonText: "Iniciar sesión"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "login";
+                    }
+                });
+            }
+        },
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Error de conexión",
+                text: "No se pudo verificar la sesión",
+                confirmButtonText: "Aceptar"
+            });
+        }
+    });
+});
+
+// -------- Envío del formulario de reserva --------
+$(document).on("submit", "#formReserva", function (e) {
+    e.preventDefault();
+
+    const id_producto = $("#reservaProductoId").val();
+    const cantidad_reserva = $("#cantidadReserva").val();
+    const comentario = $("#comentarioReserva").val().trim();
+
+    if (!cantidad_reserva || cantidad_reserva <= 0) {
+        Swal.fire({
+            icon: "warning",
+            title: "Cantidad inválida",
+            text: "Debe ingresar una cantidad válida para reservar.",
+            confirmButtonText: "Aceptar"
+        });
+        return;
+    }
+
+    $.ajax({
+        url: "../api-ofertapp/reserva/funRegistrarReserva.php",
+        method: "POST",
+        data: JSON.stringify({
+            id_producto: id_producto,
+            cantidad_reserva: cantidad_reserva,
+            comentario: comentario
+        }),
+        contentType: "application/json; charset=utf-8",
+        success: function (resp) {
+            if (resp.mensaje === "ok") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Reserva realizada",
+                    text: "Tu reserva fue registrada correctamente.",
+                    confirmButtonText: "Aceptar"
+                }).then(() => {
+                    $("#modalReserva").modal("hide");
+                    $("#formReserva")[0].reset();
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: resp.error || "No se pudo registrar la reserva.",
+                    confirmButtonText: "Aceptar"
+                });
+            }
+        },
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Error de conexión",
+                text: "No se pudo contactar con el servidor.",
+                confirmButtonText: "Aceptar"
+            });
+        }
+    });
+});
