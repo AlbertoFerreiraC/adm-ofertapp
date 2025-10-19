@@ -24,7 +24,7 @@
         <li><a href="empresa"><i class="fa fa-building"></i> Datos de la Empresa</a></li>
         <li><a href="membresias_planes"><i class="fa fa-id-card"></i> Membresía / Plan</a></li>
         <li><a href="informe-busquedas"><i class="fa fa-line-chart"></i> Búsquedas Populares</a></li>
-        <li><a href="informe-productos"><i class="fa fa-pie-chart"></i> Productos Más Consultados</a></li>
+        <li><a href="informeProductos"><i class="fa fa-pie-chart"></i> Productos Más Consultados</a></li>
         <li><a href="informe-ventas"><i class="fa fa-area-chart"></i> Actividad Comercial</a></li>
         <li><a href="retroalimentacion"><i class="fa fa-comments"></i> Comentarios de Clientes</a></li>
         <li><a href="perfil"><i class="fa fa-user"></i> Mi Perfil</a></li>
@@ -47,7 +47,7 @@
         <li><a href="empresa"><i class="fa fa-building"></i> Datos de la Empresa</a></li>
         <li><a href="membresia"><i class="fa fa-id-card"></i> Membresía / Plan</a></li>
         <li><a href="informe-busquedas"><i class="fa fa-line-chart"></i> Búsquedas Populares</a></li>
-        <li><a href="informe-productos"><i class="fa fa-pie-chart"></i> Productos Más Consultados</a></li>
+        <li><a href="informeProductos"><i class="fa fa-pie-chart"></i> Productos Más Consultados</a></li>
         <li><a href="informe-ventas"><i class="fa fa-area-chart"></i> Actividad Comercial</a></li>
 
         <li class="menu-subtitulo">Módulo Administración</li>
