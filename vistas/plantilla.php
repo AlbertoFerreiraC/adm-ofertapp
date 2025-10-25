@@ -92,7 +92,14 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "descripcionProductos",
         "agregar_producto",
         "ofertas_activas",
-        "informeProductos"
+        "informeProductos",
+        "informeBusquedas",
+        "informeActividadComercial",
+        "comentarios",
+        "miPerfil",
+        "misReservas",
+        "miOpinion",
+        "historial"
     ];
 
 

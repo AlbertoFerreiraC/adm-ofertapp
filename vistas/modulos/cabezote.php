@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav">
                 <?php if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"): ?>
                     <li>
-                        <a href="perfil">
+                        <a href="miPerfil">
                             <i class="fas fa-user"></i> Mi Perfil
                         </a>
                     </li>

@@ -7,12 +7,12 @@
 
       <!-- === PERFIL PERSONAL === -->
       <?php if ($_SESSION['tipo_usuario'] == 'personal'): ?>
-        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li><a href="dashboard"><i class="fa fa-home"></i> Inicio</a></li>
         <li><a href="productos"><i class="fa fa-cube"></i> Productos</a></li>
-        <li><a href="mis_reservas"><i class="fa fa-shopping-cart"></i> Mis Reservas</a></li>
+        <li><a href="misReservas"><i class="fa fa-shopping-cart"></i> Mis Reservas</a></li>
         <li><a href="historial"><i class="fa fa-history"></i> Historial</a></li>
-        <li><a href="retroalimentacion"><i class="fa fa-comment"></i> Opiniones y Reseñas</a></li>
-        <li><a href="perfil"><i class="fa fa-user-circle"></i> Mi Perfil</a></li>
+        <li><a href="miOpinion"><i class="fa fa-comment"></i> Opiniones y Reseñas</a></li>
+        <li><a href="miPerfil"><i class="fa fa-user-circle"></i> Mi Perfil</a></li>
       <?php endif; ?>
 
       <!-- === PERFIL COMERCIAL === -->
@@ -23,11 +23,11 @@
         <li><a href="ofertas"><i class="fa fa-star"></i> Ofertas Activas</a></li>
         <li><a href="empresa"><i class="fa fa-building"></i> Datos de la Empresa</a></li>
         <li><a href="membresias_planes"><i class="fa fa-id-card"></i> Membresía / Plan</a></li>
-        <li><a href="informe-busquedas"><i class="fa fa-line-chart"></i> Búsquedas Populares</a></li>
+        <li><a href="informeBusquedas"><i class="fa fa-line-chart"></i> Búsquedas Populares</a></li>
         <li><a href="informeProductos"><i class="fa fa-pie-chart"></i> Productos Más Consultados</a></li>
-        <li><a href="informe-ventas"><i class="fa fa-area-chart"></i> Actividad Comercial</a></li>
-        <li><a href="retroalimentacion"><i class="fa fa-comments"></i> Comentarios de Clientes</a></li>
-        <li><a href="perfil"><i class="fa fa-user"></i> Mi Perfil</a></li>
+        <li><a href="informeActividadComercial"><i class="fa fa-area-chart"></i> Actividad Comercial</a></li>
+        <li><a href="comentarios"><i class="fa fa-comments"></i> Comentarios de Clientes</a></li>
+        <li><a href="miPerfil"><i class="fa fa-user"></i> Mi Perfil</a></li>
       <?php endif; ?>
 
       <!-- === PERFIL ADMINISTRADOR === -->

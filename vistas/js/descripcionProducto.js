@@ -195,6 +195,7 @@ $(document).on("submit", "#reviewForm", function (e) {
     const idProducto = params.get("id") || params.get("rating");
     const rating = $("input[name='rating']:checked").val();
     const comentario = $("#reviewText").val().trim();
+    const idUsuario = $("#idUsuarioSesion").val();
 
     if (!rating || comentario.length < 10) {
         Swal.fire({
@@ -210,6 +211,7 @@ $(document).on("submit", "#reviewForm", function (e) {
         url: "../api-ofertapp/producto/funAgregarResena.php",
         method: "POST",
         data: JSON.stringify({
+            id_usuario: $("#idUsuarioSesion").val(),
             producto_id: idProducto,
             calificacion: rating,
             comentario: comentario
@@ -224,7 +226,7 @@ $(document).on("submit", "#reviewForm", function (e) {
                     confirmButtonText: "Aceptar"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.reload(); // 👈 ahora sí recarga al apretar "Aceptar"
+                        location.reload();
                     }
                 });
             } else {

@@ -1,3 +1,12 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+$idUsuarioSesion = isset($_SESSION['id_usuario']) ? $_SESSION['id_usuario'] : '';
+?>
+
+
 <!doctype html>
 <html lang="es">
 
@@ -571,6 +580,8 @@
 </head>
 
 <body>
+  <input type="hidden" id="idUsuarioSesion" value="<?php echo $_SESSION['id_usuario'] ?? ''; ?>">
+
   <div class="content-wrapper">
     <section class="oferta-wrapper">
       <!-- ================== CABECERA ================== -->
