@@ -5,11 +5,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $idUsuarioSesion = $_SESSION['id_usuario'] ?? '';
+$tipoUsuarioSesion = $_SESSION['tipo_usuario'] ?? '';
 ?>
 
 <div class="content-wrapper">
 
     <input type="hidden" id="idUsuarioSesion" value="<?php echo $idUsuarioSesion; ?>">
+    <input type="hidden" id="tipoUsuarioSesion" value="<?php echo $tipoUsuarioSesion; ?>">
     <section class="content-header">
         <h1>Productos en Oferta</h1>
         <ol class="breadcrumb">

@@ -32,67 +32,80 @@ $(document).ready(function () {
 function cargarDatosTabla() {
     $("#tablaEmpresas tbody").empty();
 
+    const idUsuario = $("#idUsuarioSesion").val();
+    const tipoUsuario = $("#tipoUsuarioSesion").val();
+
+    let parametros = {};
+
+    if (tipoUsuario !== "administrador") {
+        parametros.idUsuario = idUsuario;
+    }
+
     $.ajax({
         url: "../api-ofertapp/empresa/funListar.php",
         method: "GET",
+        data: parametros, 
         cache: false,
         dataType: "json",
         success: function (response) {
             let filas = "";
 
-            response.forEach((item, index) => {
-                let direccionCompleta = `${item.calle ?? ''} ${item.numero ?? ''}, ${item.barrio ?? ''}, ${item.ciudad ?? ''}`;
+            if (!response || response.length === 0) {
+                filas = `<tr><td colspan="6" class="text-center text-muted">No se encontraron empresas registradas.</td></tr>`;
+            } else {
+                response.forEach((item, index) => {
+                    let direccionCompleta = `${item.calle ?? ''} ${item.numero ?? ''}, ${item.barrio ?? ''}, ${item.ciudad ?? ''}`;
 
-                filas += `
-                    <tr id="fila_${item.idEmpresa}">
-                        <td>${index + 1}</td>
-                        <td>${item.nombre}</td>
-                        <td>${item.categoria}</td>
-                        <td>${direccionCompleta}</td>
-                        <td>
-                            <button class="btn btn-info" onclick="verMapa(${item.latitud}, ${item.longitud})">
-                                <i class="fa fa-map-marker"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <center>
-                                <div class="btn-group">
-                                    <button title="Modificar" class="btn btn-warning btnModificar" 
-                                        id="${item.idEmpresa}" 
-                                        data-toggle="modal" 
-                                        data-target="#modalModificarEmpresa">
-                                        <i class="fa fa-pencil"></i>
-                                    </button>
-                                    <button title="Eliminar" class="btn btn-danger btnEliminar" 
-                                        id="${item.idEmpresa}">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </center>
-                        </td>
-                    </tr>
-                `;
-            });
+                    filas += `
+                        <tr id="fila_${item.idEmpresa}">
+                            <td>${index + 1}</td>
+                            <td>${item.nombre}</td>
+                            <td>${item.categoria}</td>
+                            <td>${direccionCompleta}</td>
+                            <td>
+                                <button class="btn btn-info" onclick="verMapa(${item.latitud}, ${item.longitud})">
+                                    <i class="fa fa-map-marker"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <center>
+                                    <div class="btn-group">
+                                        <button title="Modificar" class="btn btn-warning btnModificar" 
+                                            id="${item.idEmpresa}" 
+                                            data-toggle="modal" 
+                                            data-target="#modalModificarEmpresa">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                        <button title="Eliminar" class="btn btn-danger btnEliminar" 
+                                            id="${item.idEmpresa}">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </center>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
 
-            $('#tablaEmpresas tbody').append(filas);
+            $("#tablaEmpresas tbody").append(filas);
 
-            // Eventos dinámicos
-            $('.btnModificar').click(function () {
+            // === Eventos dinámicos ===
+            $(".btnModificar").click(function () {
                 obtenerDatosParaModificar(this.id);
             });
 
-            $('.btnEliminar').click(function () {
+            $(".btnEliminar").click(function () {
                 const id_registro = this.id;
-
                 Swal.fire({
-                    icon: 'warning',
-                    title: '¿Está seguro de eliminar la empresa?',
+                    icon: "warning",
+                    title: "¿Está seguro de eliminar la empresa?",
                     text: "¡Si no lo está puede cancelar la acción!",
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Sí, eliminar'
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonText: "Sí, eliminar"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         eliminarDatos(id_registro);
@@ -109,7 +122,6 @@ function cargarDatosTabla() {
         }
     });
 }
-
 
 // -------- Agregar --------
 function agregarDatos() {

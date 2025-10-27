@@ -9,23 +9,22 @@ function cargarProductos() {
     const idUsuario = $("#idUsuarioSesion").val();
     const tipoUsuario = $("#tipoUsuarioSesion").val();
 
-    // Determinamos qué tipo de consulta hacer
     let urlApi = "../api-ofertapp/producto/funListarProductos.php";
-    let data = {};
+    let data = {
+        idUsuario: idUsuario,
+        tipoUsuario: tipoUsuario
+    };
 
     if (idUsuario && tipoUsuario === "comercial") {
-        // 🧾 Usuario comercial → solo sus productos
-        data.idUsuario = idUsuario;
-        console.log(`🟢 Comercial logueado (ID: ${idUsuario}) → cargando sus productos.`);
+        console.log(`🟢 Comercial logueado (ID: ${idUsuario}) → cargando solo sus productos.`);
     }
-    else if (idUsuario && tipoUsuario === "personal") {
-        // 👤 Usuario personal → ve todo
-        console.log(`🔵 Personal logueado (ID: ${idUsuario}) → cargando todos los productos.`);
+    else if (idUsuario && (tipoUsuario === "personal" || tipoUsuario === "administrador")) {
+        console.log(`🔵 ${tipoUsuario.charAt(0).toUpperCase() + tipoUsuario.slice(1)} logueado (ID: ${idUsuario}) → cargando todos los productos.`);
     }
     else {
-        // 👀 Visitante no logueado → ve todo
         console.log("⚪ Visitante → cargando productos públicos.");
     }
+
 
     $.ajax({
         url: urlApi,
@@ -90,7 +89,7 @@ function cargarProductos() {
                 );
             });
 
-            // Evento: ir al detalle del producto
+            // Evento: ir a detalle del producto
             $(".producto-card").click(function () {
                 const id = $(this).data("id");
                 window.location.href = `descripcionProductos?id=${id}`;
@@ -107,6 +106,7 @@ function cargarProductos() {
         }
     });
 }
+
 // -------- Dibujar estrellas --------
 function dibujarEstrellas(rating) {
     const full = Math.floor(rating);

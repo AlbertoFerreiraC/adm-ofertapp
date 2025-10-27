@@ -1,5 +1,14 @@
-<div class="content-wrapper">
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$idUsuarioSesion = $_SESSION['id_usuario'] ?? '';
+$tipoUsuarioSesion = $_SESSION['tipo_usuario'] ?? '';
+?>
 
+<div class="content-wrapper">
+    <input type="hidden" id="idUsuarioSesion" value="<?php echo $idUsuarioSesion; ?>">
+    <input type="hidden" id="tipoUsuarioSesion" value="<?php echo $tipoUsuarioSesion; ?>">
     <section class="content-header">
         <h1>Administrar Empresas</h1>
         <ol class="breadcrumb">

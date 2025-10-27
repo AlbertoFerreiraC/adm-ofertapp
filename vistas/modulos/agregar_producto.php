@@ -7,11 +7,13 @@ if (session_status() === PHP_SESSION_NONE) {
 // Capturar idEmpresa desde sesión, o dejar vacío si no existe
 $idEmpresaSesion = isset($_SESSION['idEmpresa']) ? $_SESSION['idEmpresa'] : '';
 $idUsuarioSesion = $_SESSION['id_usuario'] ?? '';
+$tipoUsuarioSesion = $_SESSION['tipo_usuario'] ?? '';
 ?>
 
 <div class="content-wrapper">
 
     <input type="hidden" id="idUsuarioSesion" value="<?php echo $idUsuarioSesion; ?>">
+    <input type="hidden" id="tipoUsuarioSesion" value="<?php echo $tipoUsuarioSesion; ?>">
     <section class="content-header">
         <h1>Administrar Productos</h1>
         <ol class="breadcrumb">

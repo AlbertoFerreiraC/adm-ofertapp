@@ -17,11 +17,15 @@ function cargarOfertas() {
     $("#tablaOfertas tbody").empty();
 
     const idUsuario = $("#idUsuarioSesion").val();
+    const tipoUsuario = $("#tipoUsuarioSesion").val();
 
     $.ajax({
         url: "../api-ofertapp/producto/funListarOfertas.php",
         method: "GET",
-        data: { idUsuario: idUsuario },
+        data: {
+            idUsuario: idUsuario,
+            tipoUsuario: tipoUsuario
+        },
         dataType: "json",
         cache: false,
         success: function (response) {
@@ -40,7 +44,7 @@ function cargarOfertas() {
                             <td>${index + 1}</td>
                             <td>${item.titulo}</td>
                             <td>${item.descripcion}</td>
-                            <td>${item.cantidad}</td>
+                            <td>${item.cantidad ?? '-'}</td>
                             <td>Gs. ${parseInt(item.costo).toLocaleString("es-PY")}</td>
                             <td>${item.categoria}</td>
                             <td>${item.color ?? "-"}</td>
@@ -70,4 +74,3 @@ function cargarOfertas() {
         }
     });
 }
-

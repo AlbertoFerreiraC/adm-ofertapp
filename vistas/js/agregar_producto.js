@@ -44,11 +44,15 @@ function cargarDatosTablaProducto() {
         });
         return;
     }
+    const tipoUsuario = $("#tipoUsuarioSesion").val();
 
     $.ajax({
         url: "../api-ofertapp/producto/funListar.php",
         method: "GET",
-        data: { idUsuario: idUsuario }, 
+        data: {
+            idUsuario: idUsuario,
+            tipoUsuario: tipoUsuario
+        },
         cache: false,
         dataType: "json",
         success: function (response) {
