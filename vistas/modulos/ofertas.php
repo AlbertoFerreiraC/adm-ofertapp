@@ -1,12 +1,15 @@
 <?php
-// Iniciar sesión
+// Iniciar sesión solo si no está ya activa
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+$idUsuarioSesion = $_SESSION['id_usuario'] ?? '';
 ?>
 
 <div class="content-wrapper">
 
+    <input type="hidden" id="idUsuarioSesion" value="<?php echo $idUsuarioSesion; ?>">
     <section class="content-header">
         <h1>Productos en Oferta</h1>
         <ol class="breadcrumb">

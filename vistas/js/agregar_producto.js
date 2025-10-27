@@ -30,18 +30,41 @@ $(document).ready(function () {
 
 
 // ================= FUNCIONES =================
-
-// -------- Listar --------
 function cargarDatosTablaProducto() {
     $("#tablaProductos tbody").empty();
+
+    const idUsuario = $("#idUsuarioSesion").val();
+
+    if (!idUsuario) {
+        Swal.fire({
+            icon: "warning",
+            title: "Sesión no iniciada",
+            text: "Debes iniciar sesión para administrar tus productos.",
+            confirmButtonText: "Aceptar"
+        });
+        return;
+    }
 
     $.ajax({
         url: "../api-ofertapp/producto/funListar.php",
         method: "GET",
+        data: { idUsuario: idUsuario }, 
         cache: false,
         dataType: "json",
         success: function (response) {
             let filas = "";
+
+            if (!response || response.length === 0) {
+                filas = `
+                    <tr>
+                        <td colspan="12" class="text-center text-muted">
+                            No hay productos registrados.
+                        </td>
+                    </tr>
+                `;
+                $("#tablaProductos tbody").append(filas);
+                return;
+            }
 
             response.forEach((item, index) => {
                 filas += `
@@ -55,8 +78,14 @@ function cargarDatosTablaProducto() {
                         <td>${item.color ?? '-'}</td>
                         <td>${item.tamano ?? '-'}</td>
                         <td>${item.condicion}</td>
-                        <td>${item.estado}</td>
-                        <td><img src="${item.imagen}" alt="img" style="width:60px; height:auto; border:1px solid #ccc;"></td>
+                        <td>
+                            <span class="label ${item.estado === 'activo' ? 'label-success' : 'label-danger'}">
+                                ${item.estado}
+                            </span>
+                        </td>
+                        <td>
+                            <img src="${item.imagen}" alt="img" style="width:60px; height:auto; border:1px solid #ccc;">
+                        </td>
                         <td>
                             <center>
                                 <div class="btn-group">
@@ -73,25 +102,24 @@ function cargarDatosTablaProducto() {
                 `;
             });
 
-            $('#tablaProductos tbody').append(filas);
+            $("#tablaProductos tbody").append(filas);
 
-            // Evento dinámico: modificar producto
-            $('.btnModificarProducto').click(function () {
+            // === Eventos dinámicos ===
+            $(".btnModificarProducto").click(function () {
                 const idProducto = this.id;
                 obtenerDatosProducto(idProducto);
             });
 
-            // Evento dinámico: eliminar producto
-            $('.btnEliminarProducto').click(function () {
+            $(".btnEliminarProducto").click(function () {
                 const id = this.id;
                 Swal.fire({
-                    icon: 'warning',
-                    title: '¿Está seguro de eliminar el producto?',
+                    icon: "warning",
+                    title: "¿Está seguro de eliminar el producto?",
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Sí, eliminar'
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonText: "Sí, eliminar"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         eliminarProducto(id);
@@ -102,12 +130,13 @@ function cargarDatosTablaProducto() {
         error: function () {
             Swal.fire({
                 icon: "error",
-                title: "Error al cargar productos"
+                title: "Error al cargar productos",
+                text: "No se pudo obtener la lista de productos.",
+                confirmButtonText: "Aceptar"
             });
         }
     });
 }
-
 
 // -------- Agregar --------
 function agregarProducto() {

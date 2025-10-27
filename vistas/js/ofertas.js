@@ -16,15 +16,23 @@ $(document).ready(function () {
 function cargarOfertas() {
     $("#tablaOfertas tbody").empty();
 
+    const idUsuario = $("#idUsuarioSesion").val();
+
     $.ajax({
         url: "../api-ofertapp/producto/funListarOfertas.php",
         method: "GET",
+        data: { idUsuario: idUsuario },
         dataType: "json",
         cache: false,
         success: function (response) {
             let filas = "";
-            if (response.length === 0) {
-                filas = `<tr><td colspan="12" class="text-center text-muted">No hay productos en oferta actualmente</td></tr>`;
+            if (!response || response.length === 0) {
+                filas = `
+                    <tr>
+                        <td colspan="12" class="text-center text-muted">
+                            No hay productos en oferta actualmente.
+                        </td>
+                    </tr>`;
             } else {
                 response.forEach((item, index) => {
                     filas += `
@@ -39,12 +47,18 @@ function cargarOfertas() {
                             <td>${item.tamano ?? "-"}</td>
                             <td>${item.condicion}</td>
                             <td>${item.estado}</td>
-                            <td><img src="${item.imagen}" alt="img" style="width:60px; height:auto; border:1px solid #ccc;"></td>
-                            <td><span class="label label-success">Activo</span></td>
+                            <td>
+                                <img src="${item.imagen}" alt="img" 
+                                    style="width:60px; height:auto; border:1px solid #ccc;">
+                            </td>
+                            <td>
+                                <span class="label label-success">En oferta</span>
+                            </td>
                         </tr>
                     `;
                 });
             }
+
             $("#tablaOfertas tbody").append(filas);
         },
         error: function () {
@@ -56,3 +70,4 @@ function cargarOfertas() {
         }
     });
 }
+

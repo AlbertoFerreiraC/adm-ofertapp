@@ -6,14 +6,39 @@ function cargarProductos() {
     $("#gridProductos").empty();
     $("#count").text("0");
 
+    const idUsuario = $("#idUsuarioSesion").val();
+    const tipoUsuario = $("#tipoUsuarioSesion").val();
+
+    // Determinamos qué tipo de consulta hacer
+    let urlApi = "../api-ofertapp/producto/funListarProductos.php";
+    let data = {};
+
+    if (idUsuario && tipoUsuario === "comercial") {
+        // 🧾 Usuario comercial → solo sus productos
+        data.idUsuario = idUsuario;
+        console.log(`🟢 Comercial logueado (ID: ${idUsuario}) → cargando sus productos.`);
+    }
+    else if (idUsuario && tipoUsuario === "personal") {
+        // 👤 Usuario personal → ve todo
+        console.log(`🔵 Personal logueado (ID: ${idUsuario}) → cargando todos los productos.`);
+    }
+    else {
+        // 👀 Visitante no logueado → ve todo
+        console.log("⚪ Visitante → cargando productos públicos.");
+    }
+
     $.ajax({
-        url: "../api-ofertapp/producto/funListarProductos.php",
+        url: urlApi,
         method: "GET",
+        data: data,
         cache: false,
         dataType: "json",
         success: function (response) {
-            if (response.length === 0) {
+            console.log("✅ Productos cargados:", response);
+
+            if (!response || response.length === 0) {
                 $("#vacio").removeClass("hidden");
+                $("#count").text("0");
                 return;
             }
 
@@ -44,7 +69,9 @@ function cargarProductos() {
                                 Gs. ${Number(item.precio).toLocaleString('es-PY')}
                                 ${precioAnterior}
                             </p>
-                            <p class="producto-tienda">${item.empresa} · <span class="text-gray-500">${item.categoria}</span></p>
+                            <p class="producto-tienda">${item.empresa} · 
+                                <span class="text-gray-500">${item.categoria}</span>
+                            </p>
                             <div class="producto-rating">${dibujarEstrellas(item.rating)}</div>
                         </div>
                     </div>
@@ -53,9 +80,9 @@ function cargarProductos() {
 
             $("#gridProductos").append(cards);
 
-            // Evento de ver mapa
+            // Evento: ver mapa
             $(".icono-ubicacion").click(function (e) {
-                e.stopPropagation(); // evitar que dispare el click de la tarjeta
+                e.stopPropagation();
                 verMapa(
                     Number($(this).data("lat")),
                     Number($(this).data("lng")),
@@ -63,22 +90,23 @@ function cargarProductos() {
                 );
             });
 
-            // Evento para ir al detalle al tocar la tarjeta
+            // Evento: ir al detalle del producto
             $(".producto-card").click(function () {
                 const id = $(this).data("id");
                 window.location.href = `descripcionProductos?id=${id}`;
             });
         },
-        error: function () {
+        error: function (xhr, status, error) {
+            console.error("❌ Error AJAX:", status, error);
             Swal.fire({
                 icon: "error",
-                title: "Ha ocurrido un error al cargar los productos",
+                title: "Error al cargar productos",
+                text: "No se pudo obtener los productos. Intenta más tarde.",
                 confirmButtonText: "Aceptar"
             });
         }
     });
 }
-
 // -------- Dibujar estrellas --------
 function dibujarEstrellas(rating) {
     const full = Math.floor(rating);
