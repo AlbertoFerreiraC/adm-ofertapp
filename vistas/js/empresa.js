@@ -60,7 +60,6 @@ function cargarDatosTabla() {
                         <tr id="fila_${item.idEmpresa}">
                             <td>${index + 1}</td>
                             <td>${item.nombre}</td>
-                            <td>${item.categoria}</td>
                             <td>${direccionCompleta}</td>
                             <td>
                                 <button class="btn btn-info" onclick="verMapa(${item.latitud}, ${item.longitud})">
@@ -127,7 +126,6 @@ function cargarDatosTabla() {
 function agregarDatos() {
     var params = {
         "nombre": $("#nombreEmpresa").val(),
-        "categoria_id": $("#categoriaEmpresa").val(),
         "calle": $("#calle").val(),
         "numero": $("#numero").val(),
         "barrio": $("#barrio").val(),
@@ -202,7 +200,6 @@ function obtenerDatosParaModificar(idEmpresa) {
                 $("#latitudModificar").val(response[0].latitud);
                 $("#longitudModificar").val(response[0].longitud);
 
-                categoriaModificar(response[0].Categoria_idCategoria);
 
                 setTimeout(() => {
                     initMapModificar(response[0].latitud, response[0].longitud);
@@ -224,7 +221,6 @@ function modificarDatos() {
     var params = {
         "idEmpresa": $("#idModificar").val(),
         "nombre": $("#nombreEmpresaModificar").val(),
-        "categoria_id": $("#categoriaEmpresaModificar").val(),
         "calle": $("#calleModificar").val(),
         "numero": $("#numeroModificar").val(),
         "barrio": $("#barrioModificar").val(),

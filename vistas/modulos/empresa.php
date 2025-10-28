@@ -40,7 +40,6 @@ $tipoUsuarioSesion = $_SESSION['tipo_usuario'] ?? '';
                             <tr>
                                 <th>#</th>
                                 <th>Nombre</th>
-                                <th>Categoría</th>
                                 <th>Dirección</th>
                                 <th>Mapa</th>
                                 <th style="width:120px;">Acciones</th>
@@ -162,15 +161,7 @@ MODAL MODIFICAR EMPRESA
                             <label>Nombre de la Empresa</label>
                             <input type="text" class="form-control" id="nombreEmpresaModificar" name="nombreEmpresaModificar" required>
                         </div>
-
-                        <!-- Categoría -->
-                        <div class="form-group">
-                            <label>Categoría</label>
-                            <select class="form-control" id="categoriaEmpresaModificar" name="categoriaEmpresaModificar" required>
-                                <option value="">Seleccione una categoría</option>
-                            </select>
-                        </div>
-
+                        
                         <!-- Dirección desglosada -->
                         <div class="form-group"><label>Calle</label>
                             <input type="text" class="form-control" id="calleModificar" name="calleModificar" required>

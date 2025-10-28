@@ -327,11 +327,6 @@
                         <label for="paisEmpresa">País:</label>
                         <input type="text" id="paisEmpresa" name="paisEmpresa" value="Paraguay">
                     </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="categoriaEmpresa">Categoría:</label>
-                        <select class="form-control input-md cajatexto solo-ruc" id="categoriaEmpresa" name="categoriaEmpresa"></select>
-                    </div>
                 </div>
 
                 <!-- MAPA SOLO PARA CUENTA COMERCIAL -->
