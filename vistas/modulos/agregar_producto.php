@@ -45,7 +45,6 @@ $tipoUsuarioSesion = $_SESSION['tipo_usuario'] ?? '';
                             <tr>
                                 <th>#</th>
                                 <th>Título</th>
-                                <th>Descripción</th>
                                 <th>Cantidad</th>
                                 <th>Costo</th>
                                 <th>Categoría</th>
@@ -158,16 +157,6 @@ MODAL AGREGAR PRODUCTO
                                 <img id="previewImagen" src="vistas/img/plantilla/default.png" alt="Preview" style="max-width:200px; border:1px solid #ccc; padding:5px;">
                             </div>
                         </div>
-
-                        <!-- En oferta -->
-                        <div class="form-group">
-                            <label>¿En oferta?</label>
-                            <select class="form-control" name="en_oferta" id="en_oferta" required>
-                                <option value="0" selected>No</option>
-                                <option value="1">Sí</option>
-                            </select>
-                        </div>
-
                     </div>
                 </div>
 

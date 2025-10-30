@@ -37,7 +37,7 @@
         <li><a href="productos"><i class="fa fa-cube"></i> Productos</a></li>
         <li><a href="mis_reservas"><i class="fa fa-shopping-cart"></i> Mis Reservas</a></li>
         <li><a href="historial"><i class="fa fa-history"></i> Historial</a></li>
-        <li><a href="retroalimentacion"><i class="fa fa-comment"></i> Opiniones y Reseñas</a></li>
+        <li><a href="comentarios"><i class="fa fa-comment"></i> Opiniones y Reseñas</a></li>
         <li><a href="perfil"><i class="fa fa-user-circle"></i> Mi Perfil</a></li>
 
         <li class="menu-subtitulo">Módulo Comercial</li>

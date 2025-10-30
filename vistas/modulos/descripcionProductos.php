@@ -590,25 +590,16 @@ $idUsuarioSesion = isset($_SESSION['id_usuario']) ? $_SESSION['id_usuario'] : ''
           <div class="oferta-chip" id="estadoProducto">VENDO</div>
           <h1 class="oferta-title" id="tituloProducto">Título del producto</h1>
 
-          <div class="oferta-seller">
-            <img class="oferta-seller-avatar" src="vistas/img/plantilla/avatar-generico.png" alt="Foto del vendedor">
-            <div>
-              <div class="oferta-seller-name" id="nombreVendedor">Nombre del vendedor</div>
-              <div class="oferta-contact" id="contactoVendedor"></div>
+          <div class="oferta-head-right">
+            <div class="oferta-actions">
+              <button class="oferta-icon ok" title="Disponible"><i class="fa-solid fa-check"></i></button>
+              <button class="oferta-icon chat" title="Chatear"><i class="fa-solid fa-comments"></i></button>
+              <button class="oferta-icon warn" title="Reportar"><i class="fa-solid fa-triangle-exclamation"></i></button>
             </div>
-          </div>
-        </div>
+            <div class="oferta-price" id="precioProducto">Gs. 0</div>
+            <button id="btnReserva" class="btn-reserva">Reservar producto</button>
 
-        <div class="oferta-head-right">
-          <div class="oferta-actions">
-            <button class="oferta-icon ok" title="Disponible"><i class="fa-solid fa-check"></i></button>
-            <button class="oferta-icon chat" title="Chatear"><i class="fa-solid fa-comments"></i></button>
-            <button class="oferta-icon warn" title="Reportar"><i class="fa-solid fa-triangle-exclamation"></i></button>
           </div>
-          <div class="oferta-price" id="precioProducto">Gs. 0</div>
-          <button id="btnReserva" class="btn-reserva">Reservar producto</button>
-
-        </div>
       </header>
 
       <!-- ================== META ================== -->

@@ -38,7 +38,6 @@ function cargarDetalleProducto(id) {
                 Gs. ${Number(producto.precio).toLocaleString("es-PY")}
                 ${producto.precio_anterior ? `<span class="precio-anterior">Gs. ${Number(producto.precio_anterior).toLocaleString("es-PY")}</span>` : ""}
             `);
-            $("#nombreVendedor").text(producto.empresa?.nombre || "Sin nombre");
             $("#linkVendedor").attr("href", "#");
 
             // Contactos

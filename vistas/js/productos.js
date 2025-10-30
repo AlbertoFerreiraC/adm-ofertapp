@@ -1,5 +1,14 @@
 $(document).ready(function () {
-    cargarProductos();
+    const params = new URLSearchParams(window.location.search);
+    const categoria = params.get("categoria");
+
+    if (categoria) {
+        console.log("📂 Filtro activo por categoría:", categoria);
+        filtrarPorCategoria(categoria);
+    } else {
+        console.log("📦 Mostrando todos los productos");
+        cargarProductos();
+    }
 });
 
 function cargarProductos() {
@@ -146,4 +155,57 @@ function verMapa(lat, lng, titulo) {
             title: titulo,
         });
     }
+}
+
+
+function filtrarPorCategoria(nombreCategoria) {
+    $.ajax({
+        url: "../api-ofertapp/producto/funListarPorCategoria.php",
+        method: "GET",
+        data: { categoria: nombreCategoria },
+        dataType: "json",
+        success: function (response) {
+            console.log(`✅ Productos de la categoría ${nombreCategoria}:`, response);
+            mostrarProductosFiltrados(response, nombreCategoria);
+        },
+        error: function (xhr, status, error) {
+            console.error("❌ Error al filtrar productos:", error);
+        }
+    });
+}
+
+function mostrarProductosFiltrados(productos, categoria) {
+    $("#gridProductos").empty();
+    $("#tituloCategoria").text(`Productos en ${categoria}`);
+
+    if (!productos || productos.length === 0) {
+        $("#gridProductos").html(`<div class="text-center text-muted p-5">No se encontraron productos en esta categoría.</div>`);
+        return;
+    }
+
+    let cards = "";
+    productos.forEach(item => {
+        cards += `
+            <div class="producto-card" data-id="${item.id}">
+                <div class="producto-img-wrapper">
+                    <img src="${item.img}" alt="${item.nombre}" class="producto-imagen">
+                    <button type="button" class="icono-ubicacion" 
+                        data-lat="${item.latitud}" 
+                        data-lng="${item.longitud}" 
+                        data-titulo="${item.empresa}">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </button>
+                </div>
+                <div class="producto-detalle">
+                    <h3 class="producto-nombre">${item.nombre}</h3>
+                    <p class="producto-precio">Gs. ${Number(item.precio).toLocaleString('es-PY')}</p>
+                    <p class="producto-tienda">${item.empresa} · 
+                        <span class="text-gray-500">${item.categoria}</span>
+                    </p>
+                    <div class="producto-rating">${dibujarEstrellas(item.rating)}</div>
+                </div>
+            </div>`;
+    });
+
+    $("#gridProductos").html(cards);
 }

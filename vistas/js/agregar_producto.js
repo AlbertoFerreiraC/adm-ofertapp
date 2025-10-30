@@ -75,7 +75,6 @@ function cargarDatosTablaProducto() {
                     <tr id="fila_${item.idProducto}">
                         <td>${index + 1}</td>
                         <td>${item.titulo}</td>
-                        <td>${item.descripcion}</td>
                         <td>${item.cantidad}</td>
                         <td>Gs. ${parseInt(item.costo).toLocaleString('es-PY')}</td>
                         <td>${item.categoria}</td>

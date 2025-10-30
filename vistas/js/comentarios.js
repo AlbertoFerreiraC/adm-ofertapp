@@ -16,14 +16,37 @@ $(document).ready(function () {
 function cargarComentarios() {
     $("#tablaComentarios tbody").empty();
 
+    const idUsuario = $("#idUsuarioSesion").val();
+    const tipoUsuario = $("#tipoUsuarioSesion").val();
+
+    let urlApi = "../api-ofertapp/comentario/funListarComentarios.php";
+    let data = {
+        idUsuario: idUsuario,
+        tipoUsuario: tipoUsuario
+    };
+
+    // === Validación del tipo de usuario ===
+    if (idUsuario && tipoUsuario === "comercial") {
+        console.log(`🟢 Comercial logueado (ID: ${idUsuario}) → cargando solo comentarios de sus productos.`);
+    }
+    else if (idUsuario && (tipoUsuario === "personal" || tipoUsuario === "administrador")) {
+        console.log(`🔵 ${tipoUsuario.charAt(0).toUpperCase() + tipoUsuario.slice(1)} logueado (ID: ${idUsuario}) → cargando todos los comentarios.`);
+    }
+    else {
+        console.log("⚪ Visitante → no se cargan comentarios privados.");
+    }
+
     $.ajax({
-        url: "../api-ofertapp/comentario/funListarComentarios.php",
+        url: urlApi,
         method: "GET",
+        data: data,
         dataType: "json",
         cache: false,
         success: function (response) {
+            console.log("✅ Comentarios cargados:", response);
+
             let filas = "";
-            if (response.length === 0) {
+            if (!response || response.length === 0) {
                 filas = `<tr><td colspan="6" class="text-center text-muted">No hay comentarios registrados</td></tr>`;
             } else {
                 response.forEach((item, index) => {
@@ -48,11 +71,13 @@ function cargarComentarios() {
             }
             $("#tablaComentarios tbody").append(filas);
         },
-        error: function () {
+        error: function (xhr, status, error) {
+            console.error("❌ Error AJAX:", status, error);
             Swal.fire({
                 icon: "error",
                 title: "Error al cargar comentarios",
-                text: "No se pudo obtener la lista de comentarios y reseñas."
+                text: "No se pudo obtener la lista de comentarios y reseñas.",
+                confirmButtonText: "Aceptar"
             });
         }
     });
