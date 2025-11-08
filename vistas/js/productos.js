@@ -1,14 +1,53 @@
 $(document).ready(function () {
     const params = new URLSearchParams(window.location.search);
     const categoria = params.get("categoria");
+    const tipoUsuario = $("#tipoUsuarioSesion").val();
 
     if (categoria) {
-        console.log("📂 Filtro activo por categoría:", categoria);
+        console.log("Filtro activo por categoría:", categoria);
         filtrarPorCategoria(categoria);
-    } else {
-        console.log("📦 Mostrando todos los productos");
-        cargarProductos();
+        return;
     }
+
+    if (tipoUsuario === "personal") {
+        console.log("Usuario personal detectado → solicitando ubicación...");
+
+        Swal.fire({
+            icon: "info",
+            title: "Productos cercanos",
+            text: "Los productos se mostrarán en orden de cercanía a tu ubicación actual.",
+            confirmButtonText: "Continuar",
+            confirmButtonColor: "#3085d6",
+            backdrop: true,
+            allowOutsideClick: false
+        }).then(() => {
+            obtenerUbicacionUsuario();
+        });
+        return;
+    }
+
+    // Si NO hay sesión iniciada → mostrar alerta de visitante
+    if (!tipoUsuario || tipoUsuario.trim() === "") {
+        console.log("Visitante detectado → mostrando aviso de geolocalización");
+        Swal.fire({
+            icon: "info",
+            title: "Productos cercanos",
+            text: "Inicia sesión para ver productos cerca de tu ubicación y recibir recomendaciones personalizadas.",
+            confirmButtonText: "Entendido",
+            confirmButtonColor: "#3085d6",
+            backdrop: true,
+            allowOutsideClick: true,
+            timer: 6000,
+            timerProgressBar: true
+        }).then(() => {
+            cargarProductos(); // cargar productos públicos luego del aviso
+        });
+        return;
+    }
+
+    // En cualquier otro caso → carga normal
+    console.log("Mostrando todos los productos (sin geolocalización)");
+    cargarProductos();
 });
 
 function cargarProductos() {
@@ -26,14 +65,11 @@ function cargarProductos() {
 
     if (idUsuario && tipoUsuario === "comercial") {
         console.log(`🟢 Comercial logueado (ID: ${idUsuario}) → cargando solo sus productos.`);
-    }
-    else if (idUsuario && (tipoUsuario === "personal" || tipoUsuario === "administrador")) {
+    } else if (idUsuario && (tipoUsuario === "personal" || tipoUsuario === "administrador")) {
         console.log(`🔵 ${tipoUsuario.charAt(0).toUpperCase() + tipoUsuario.slice(1)} logueado (ID: ${idUsuario}) → cargando todos los productos.`);
+    } else {
+        console.log("Visitante → cargando productos públicos.");
     }
-    else {
-        console.log("⚪ Visitante → cargando productos públicos.");
-    }
-
 
     $.ajax({
         url: urlApi,
@@ -56,54 +92,47 @@ function cargarProductos() {
             let cards = "";
 
             response.forEach((item) => {
+                // 🔍 Detecta automáticamente la clave del ID
+                const idProducto = item.idProducto || item.id_producto || item.id || null;
+
+                if (!idProducto) {
+                    console.warn("⚠️ Producto sin ID:", item);
+                    return; // evita crear tarjetas sin ID
+                }
+
                 let precioAnterior = item.precio_anterior
                     ? `<span class="precio-anterior">Gs. ${Number(item.precio_anterior).toLocaleString('es-PY')}</span>`
                     : "";
 
                 cards += `
-                    <div class="producto-card" data-id="${item.id}">
-                        <div class="producto-img-wrapper">
-                            <img src="${item.img}" alt="${item.nombre}" class="producto-imagen">
-                            <button type="button" class="icono-ubicacion" 
-                                data-lat="${item.latitud}" 
-                                data-lng="${item.longitud}" 
-                                data-titulo="${item.empresa}">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </button>
-                        </div>
-                        <div class="producto-detalle">
-                            <h3 class="producto-nombre">${item.nombre}</h3>
-                            <p class="producto-precio">
-                                Gs. ${Number(item.precio).toLocaleString('es-PY')}
-                                ${precioAnterior}
-                            </p>
-                            <p class="producto-tienda">${item.empresa} · 
-                                <span class="text-gray-500">${item.categoria}</span>
-                            </p>
-                            <div class="producto-rating">${dibujarEstrellas(item.rating)}</div>
-                        </div>
-                    </div>
-                `;
+            <div class="producto-card" data-id="${idProducto}">
+                <div class="producto-img-wrapper">
+                    <img src="${item.img}" alt="${item.nombre}" class="producto-imagen">
+                    <button type="button" class="icono-ubicacion" 
+                        data-lat="${item.latitud}" 
+                        data-lng="${item.longitud}" 
+                        data-titulo="${item.empresa}">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </button>
+                </div>
+                <div class="producto-detalle">
+                    <h3 class="producto-nombre">${item.nombre}</h3>
+                    <p class="producto-precio">
+                        Gs. ${Number(item.precio).toLocaleString('es-PY')}
+                        ${precioAnterior}
+                    </p>
+                    <p class="producto-tienda">${item.empresa} · 
+                        <span class="text-gray-500">${item.categoria}</span>
+                    </p>
+                    <div class="producto-rating">${dibujarEstrellas(item.rating)}</div>
+                </div>
+            </div>
+        `;
             });
 
             $("#gridProductos").append(cards);
-
-            // Evento: ver mapa
-            $(".icono-ubicacion").click(function (e) {
-                e.stopPropagation();
-                verMapa(
-                    Number($(this).data("lat")),
-                    Number($(this).data("lng")),
-                    $(this).data("titulo")
-                );
-            });
-
-            // Evento: ir a detalle del producto
-            $(".producto-card").click(function () {
-                const id = $(this).data("id");
-                window.location.href = `descripcionProductos?id=${id}`;
-            });
         },
+
         error: function (xhr, status, error) {
             console.error("❌ Error AJAX:", status, error);
             Swal.fire({
@@ -115,6 +144,17 @@ function cargarProductos() {
         }
     });
 }
+
+// -------- Evento global para abrir la descripción --------
+$(document).on("click", ".producto-card", function () {
+    const id = $(this).data("id");
+    if (id) {
+        console.log("➡️ Redirigiendo a detalle del producto ID:", id);
+        window.location.href = `descripcionProductos?id=${id}`;
+    } else {
+        console.warn("⚠️ No se encontró ID en la tarjeta del producto.");
+    }
+});
 
 // -------- Dibujar estrellas --------
 function dibujarEstrellas(rating) {
@@ -157,7 +197,7 @@ function verMapa(lat, lng, titulo) {
     }
 }
 
-
+// -------- Filtrar por categoría --------
 function filtrarPorCategoria(nombreCategoria) {
     $.ajax({
         url: "../api-ofertapp/producto/funListarPorCategoria.php",
@@ -185,8 +225,16 @@ function mostrarProductosFiltrados(productos, categoria) {
 
     let cards = "";
     productos.forEach(item => {
+        // 🔍 Detecta automáticamente la clave del ID, igual que en cargarProductos()
+        const idProducto = item.idProducto || item.id_producto || item.id || null;
+
+        if (!idProducto) {
+            console.warn("⚠️ Producto sin ID en categoría:", item);
+            return;
+        }
+
         cards += `
-            <div class="producto-card" data-id="${item.id}">
+            <div class="producto-card" data-id="${idProducto}">
                 <div class="producto-img-wrapper">
                     <img src="${item.img}" alt="${item.nombre}" class="producto-imagen">
                     <button type="button" class="icono-ubicacion" 
@@ -208,4 +256,34 @@ function mostrarProductosFiltrados(productos, categoria) {
     });
 
     $("#gridProductos").html(cards);
+}
+
+
+// -------- Obtener ubicación del usuario --------
+function obtenerUbicacionUsuario() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+
+                console.log("📍 Ubicación obtenida:", lat, lng);
+
+                fetch(`../api-ofertapp/producto/funListarCercanos.php?lat=${lat}&lng=${lng}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("✅ Productos cercanos:", data);
+                        mostrarProductosFiltrados(data, "Cercanos a ti");
+                    })
+                    .catch(err => console.error("❌ Error al cargar cercanos:", err));
+            },
+            (err) => {
+                console.warn("⚠️ El usuario denegó el permiso de ubicación.", err);
+                Swal.fire("Atención", "No podemos mostrarte productos cercanos sin tu ubicación.", "info");
+                cargarProductos(); // fallback
+            }
+        );
+    } else {
+        Swal.fire("Error", "Tu navegador no soporta geolocalización.", "error");
+    }
 }
