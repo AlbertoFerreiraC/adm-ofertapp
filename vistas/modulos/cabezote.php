@@ -1,4 +1,8 @@
 <header class="main-header">
+    <button class="toggle-menu-btn" onclick="document.body.classList.toggle('menu-abierto')">
+        <i class="fa fa-bars"></i>
+    </button>
+
     <nav class="navbar navbar-static-top">
         <ul class="navbar-menu-links">
             <li><a href="dashboard"><i class="fas fa-home"></i> Inicio</a></li>
@@ -217,6 +221,23 @@
         text-align: center;
         padding: 10px;
         color: #666;
+    }
+
+    /* Botón hamburguesa visible solo en pantallas pequeñas */
+    .toggle-menu-btn {
+        display: none;
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 22px;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 992px) {
+        .toggle-menu-btn {
+            display: block;
+        }
     }
 </style>
 
