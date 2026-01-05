@@ -1,3 +1,7 @@
+// ================= CARGA MASIVA =================
+let productosMasivos = [];
+let imagenesMasivasMap = {};
+
 $(document).ready(function () {
 
     // Cargar tabla de productos
@@ -26,7 +30,177 @@ $(document).ready(function () {
 
     // Cargar categorías al abrir modal agregar
     categoriaProductoAgregar();
+
+    // === CARGA MASIVA ===
+    $("#archivoMasivo").on("change", leerArchivoMasivo);
+    $("#imagenesMasivas").on("change", leerImagenesMasivas);
+
+    $("#btnConfirmarCargaMasiva").on("click", confirmarCargaMasiva);
 });
+
+function leerImagenesMasivas() {
+    imagenesMasivasMap = {};
+
+    const files = this.files;
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            imagenesMasivasMap[file.name] = e.target.result;
+
+            if (productosMasivos.length > 0) {
+                renderTablaMasiva();
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+
+function leerArchivoMasivo() {
+    const file = this.files[0];
+    if (!file) return;
+
+    const ext = file.name.split(".").pop().toLowerCase();
+
+    if (ext === "json") {
+        const reader = new FileReader();
+        reader.onload = e => {
+            productosMasivos = JSON.parse(e.target.result);
+            renderTablaMasiva();
+        };
+        reader.readAsText(file);
+    }
+
+    if (ext === "xlsx") {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const workbook = XLSX.read(e.target.result, { type: "binary" });
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            productosMasivos = XLSX.utils.sheet_to_json(sheet);
+            renderTablaMasiva();
+        };
+        reader.readAsBinaryString(file);
+    }
+}
+
+function renderTablaMasiva() {
+    const tbody = $("#tablaPreviewMasiva tbody");
+    tbody.empty();
+
+    if (productosMasivos.length === 0) {
+        tbody.append(`
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    No hay datos para mostrar
+                </td>
+            </tr>
+        `);
+        return;
+    }
+
+    productosMasivos.forEach((p, i) => {
+        const img = imagenesMasivasMap[p.imagen]
+            ? `<img src="${imagenesMasivasMap[p.imagen]}" width="50">`
+            : `<span class="text-danger">No encontrada</span>`;
+
+        tbody.append(`
+            <tr>
+                <td>${i + 1}</td>
+                <td>${p.titulo || ''}</td>
+                <td>${p.cantidad || 0}</td>
+                <td>${p.costo || 0}</td>
+                <td>${p.categoria_id || ''}</td>
+                <td>${img}</td>
+            </tr>
+        `);
+    });
+}
+
+function confirmarCargaMasiva() {
+
+    if (productosMasivos.length === 0) {
+        Swal.fire("Atención", "No hay productos para cargar", "warning");
+        return;
+    }
+
+    const faltantes = productosMasivos.filter(p => !imagenesMasivasMap[p.imagen]);
+    if (faltantes.length > 0) {
+        Swal.fire(
+            "Imágenes faltantes",
+            "Hay productos sin imagen asociada",
+            "error"
+        );
+        return;
+    }
+
+    const fd = new FormData();
+    fd.append("empresa_id", $("#empresa_id_masivo").val());
+    fd.append("productos", JSON.stringify(productosMasivos));
+
+    const files = $("#imagenesMasivas")[0].files;
+    for (let i = 0; i < files.length; i++) {
+        fd.append("imagenes[]", files[i]);
+    }
+
+    $.ajax({
+        url: "../api-ofertapp/producto/funAgregarMasivo.php",
+        method: "POST",
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function () {
+            Swal.fire("Éxito", "Carga masiva realizada correctamente", "success")
+                .then(() => {
+
+                    // 🔹 Limpiar modales
+                    limpiarModalMasivo();
+                    limpiarModalAgregarProducto();
+
+                    // 🔹 Cerrar modales
+                    $("#modalCargaMasiva").modal("hide");
+                    $("#modalAgregarProducto").modal("hide");
+
+                    // 🔹 Recargar tabla
+                    cargarDatosTablaProducto();
+                });
+
+        },
+        error: function () {
+            Swal.fire("Error", "No se pudo realizar la carga masiva", "error");
+        }
+    });
+}
+
+
+// ================= LIMPIAR MODAL MASIVO =================
+function limpiarModalMasivo() {
+    productosMasivos = [];
+    imagenesMasivasMap = {};
+
+    // Limpiar inputs file
+    $("#archivoMasivo").val("");
+    $("#imagenesMasivas").val("");
+
+    // Limpiar tabla preview
+    $("#tablaPreviewMasiva tbody").html(`
+        <tr>
+            <td colspan="6" class="text-center text-muted">
+                Cargue un archivo para visualizar los productos
+            </td>
+        </tr>
+    `);
+}
+
+// ================= LIMPIAR MODAL AGREGAR =================
+function limpiarModalAgregarProducto() {
+    $("#formProductoAgregar")[0].reset();
+
+    // Reset preview imagen
+    $("#previewImagen").attr(
+        "src",
+        "vistas/img/plantilla/default.png"
+    );
+}
 
 
 // ================= FUNCIONES =================

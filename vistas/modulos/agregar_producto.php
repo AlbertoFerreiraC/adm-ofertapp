@@ -32,9 +32,8 @@ $tipoUsuarioSesion = $_SESSION['tipo_usuario'] ?? '';
                     </button>
                 </div>
                 <div class="form-group col-md-9 col-sm-6 col-xs-12">
-                    <input type="text" style="text-align: center; font-size: 16px;"
-                        class="form-control" id="filtradoProducto"
-                        autocomplete="off" placeholder="Buscar producto...">
+                    <input type="text" style="text-align: center; font-size: 16px;" class="form-control"
+                        id="filtradoProducto" autocomplete="off" placeholder="Buscar producto...">
                 </div>
             </div>
 
@@ -95,7 +94,8 @@ MODAL AGREGAR PRODUCTO
                         <!-- Descripción -->
                         <div class="form-group">
                             <label>Descripción</label>
-                            <textarea class="form-control" name="descripcion" id="descripcion" rows="3" required></textarea>
+                            <textarea class="form-control" name="descripcion" id="descripcion" rows="3"
+                                required></textarea>
                         </div>
 
                         <!-- Cantidad -->
@@ -154,7 +154,8 @@ MODAL AGREGAR PRODUCTO
                             <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*" required>
                             <small class="help-block">Formatos permitidos: JPG, PNG, GIF. Tamaño máx: 2MB.</small>
                             <div style="margin-top:10px;">
-                                <img id="previewImagen" src="vistas/img/plantilla/default.png" alt="Preview" style="max-width:200px; border:1px solid #ccc; padding:5px;">
+                                <img id="previewImagen" src="vistas/img/plantilla/default.png" alt="Preview"
+                                    style="max-width:200px; border:1px solid #ccc; padding:5px;">
                             </div>
                         </div>
                     </div>
@@ -162,6 +163,12 @@ MODAL AGREGAR PRODUCTO
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+
+                    <button type="button" class="btn btn-info pull-left" data-toggle="modal"
+                        data-target="#modalCargaMasiva">
+                        <i class="fa fa-upload"></i> Agregar masivamente
+                    </button>
+
                     <button type="submit" class="btn btn-primary" id="btnGuardarProducto">
                         <i class="fa fa-save"></i> Guardar Producto
                     </button>
@@ -192,7 +199,8 @@ MODAL MODIFICAR PRODUCTO
                         <input type="hidden" id="idProductoEditar" name="idProductoEditar">
 
                         <!-- Campo oculto con la empresa -->
-                        <input type="hidden" id="empresa_id_editar" name="empresa_id_editar" value="<?php echo $idEmpresaSesion; ?>">
+                        <input type="hidden" id="empresa_id_editar" name="empresa_id_editar"
+                            value="<?php echo $idEmpresaSesion; ?>">
 
                         <!-- Título -->
                         <div class="form-group">
@@ -203,19 +211,22 @@ MODAL MODIFICAR PRODUCTO
                         <!-- Descripción -->
                         <div class="form-group">
                             <label>Descripción</label>
-                            <textarea class="form-control" name="descripcion_editar" id="descripcion_editar" rows="3" required></textarea>
+                            <textarea class="form-control" name="descripcion_editar" id="descripcion_editar" rows="3"
+                                required></textarea>
                         </div>
 
                         <!-- Cantidad -->
                         <div class="form-group">
                             <label>Cantidad</label>
-                            <input type="number" class="form-control" name="cantidad_editar" id="cantidad_editar" min="0" required>
+                            <input type="number" class="form-control" name="cantidad_editar" id="cantidad_editar"
+                                min="0" required>
                         </div>
 
                         <!-- Costo -->
                         <div class="form-group">
                             <label>Costo (Gs.)</label>
-                            <input type="number" class="form-control" name="costo_editar" id="costo_editar" min="0" required>
+                            <input type="number" class="form-control" name="costo_editar" id="costo_editar" min="0"
+                                required>
                         </div>
 
                         <!-- Categoría -->
@@ -259,10 +270,12 @@ MODAL MODIFICAR PRODUCTO
                         <!-- Imagen -->
                         <div class="form-group">
                             <label>Imagen del Producto</label>
-                            <input type="file" class="form-control" name="imagen_editar" id="imagen_editar" accept="image/*">
+                            <input type="file" class="form-control" name="imagen_editar" id="imagen_editar"
+                                accept="image/*">
                             <small class="help-block">Si no desea cambiar la imagen, deje este campo vacío.</small>
                             <div style="margin-top:10px;">
-                                <img id="previewImagenEditar" src="vistas/img/plantilla/default.png" alt="Preview" style="max-width:200px; border:1px solid #ccc; padding:5px;">
+                                <img id="previewImagenEditar" src="vistas/img/plantilla/default.png" alt="Preview"
+                                    style="max-width:200px; border:1px solid #ccc; padding:5px;">
                             </div>
                         </div>
 
@@ -290,11 +303,84 @@ MODAL MODIFICAR PRODUCTO
     </div>
 </div>
 
+<!--=====================================
+MODAL CARGA MASIVA DE PRODUCTOS
+======================================-->
+<div id="modalCargaMasiva" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header" style="background:#00a65a;color:white">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Carga Masiva de Productos</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="hidden" id="empresa_id_masivo" value="<?php echo $idEmpresaSesion; ?>">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Archivo de productos (JSON / XLSX)</label>
+                            <input type="file" class="form-control" id="archivoMasivo" accept=".json,.xlsx">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Imágenes de productos</label>
+                            <input type="file" class="form-control" id="imagenesMasivas" accept="image/*" multiple>
+                            <small class="text-muted">
+                                El nombre debe coincidir con el campo <b>imagen</b>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="tablaPreviewMasiva">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Título</th>
+                                <th>Cantidad</th>
+                                <th>Costo</th>
+                                <th>Categoría</th>
+                                <th>Imagen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">
+                                    Cargue un archivo para visualizar los productos
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-success" id="btnConfirmarCargaMasiva">
+                    <i class="fa fa-save"></i> Confirmar carga
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <script>
     // Preview automática de la imagen seleccionada
-    document.getElementById("imagen_editar").addEventListener("change", function(e) {
+    document.getElementById("imagen_editar").addEventListener("change", function (e) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             document.getElementById("previewImagenEditar").src = e.target.result;
         }
         reader.readAsDataURL(this.files[0]);
@@ -307,9 +393,9 @@ MODAL MODIFICAR PRODUCTO
 
 <script>
     // Preview automática de la imagen seleccionada
-    document.getElementById("imagen").addEventListener("change", function(e) {
+    document.getElementById("imagen").addEventListener("change", function (e) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             document.getElementById("previewImagen").src = e.target.result;
         }
         reader.readAsDataURL(this.files[0]);
