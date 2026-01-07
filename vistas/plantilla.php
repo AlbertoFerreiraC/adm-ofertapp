@@ -101,7 +101,9 @@ $bodyClass = ($ruta == 'login' || $ruta == 'forgot-password' || $ruta == 'reset-
         "miPerfil",
         "misReservas",
         "miOpinion",
-        "historial"
+        "historial",
+        "detalle_membresia",
+        "recibo_membresia"
     ];
 
 
